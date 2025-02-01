@@ -14,7 +14,18 @@ const eslintConfig = [
   ...compat.config({
     plugins: ['prettier'],
     rules: {
-      'prettier/prettier': 'error',
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+          singleQuote: true,
+          trailingComma: 'es5',
+          semi: true,
+          printWidth: 100,
+          tabWidth: 2,
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   }),
 ];
