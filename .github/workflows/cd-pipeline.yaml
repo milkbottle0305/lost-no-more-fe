@@ -1,4 +1,4 @@
-name: Deploy Next.js to Cloudflare Pages
+name: Deploy Pipeline
 run-name: Deploy:${{ github.ref_name }} by @${{ github.actor }}
 
 on:
@@ -7,15 +7,14 @@ on:
       - main
       - develop
 
-permissions:
-  contents: read
-
 jobs:
   build:
-    name: Build Next.js
+    name: Build and Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
+    permissions:
+      contents: read
+      deployments: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -35,35 +34,16 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
-      - if: ${{ steps.pnpm-cache.outputs.cache-hit != 'true' }}
-        run: pnpm install
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
       - name: Build Next.js
         run: pnpm run build
         env:
           NODE_ENV: production
-          NEXT_PUBLIC_BASE_PATH: '/'
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: next-build
-          path: .next
-          retention-days: 1
-  deploy:
-    name: Deploy to Cloudflare Pages
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: next-build
-          path: .next
-
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: lost-no-more-fe
-          directory: .next
+          command: pages deploy .next/ --project-name=lost-no-more-fe
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
