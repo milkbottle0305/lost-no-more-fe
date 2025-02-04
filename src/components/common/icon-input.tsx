@@ -1,0 +1,18 @@
+import { cn } from '@/lib/utils';
+import { Slots } from '@/types/slots';
+
+interface IconSearchbarProps {
+  className?: string;
+  slots: Slots<'icon' | 'input'>;
+}
+
+export default function IconInput({ className, slots }: IconSearchbarProps) {
+  return (
+    <div
+      className={cn('flex w-full items-center gap-4 rounded-xl bg-background px-5 py-3', className)}
+    >
+      {slots.icon && slots.icon()}
+      {slots.input && slots.input()}
+    </div>
+  );
+}
