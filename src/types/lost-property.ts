@@ -1,4 +1,5 @@
 export const LostLocations = [
+  '전체',
   '서울특별시',
   '강원도',
   '경기도',
@@ -23,6 +24,7 @@ export const LostLocations = [
 export type LostLocation = (typeof LostLocations)[number];
 
 export const LostCategories = [
+  '전체',
   '가방',
   '귀금속',
   '도서용품',
