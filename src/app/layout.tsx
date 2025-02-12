@@ -39,8 +39,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
-      <body className={nanumSquare.className}>{children}</body>
+    <html data-cid="html-yIFOlF">
+      <body data-cid="body-jF5a4r" className={nanumSquare.className}>
+        {children}
+      </body>
     </html>
   );
 }

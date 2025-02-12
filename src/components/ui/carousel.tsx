@@ -108,6 +108,7 @@ const Carousel = React.forwardRef<
 
   return (
     <CarouselContext.Provider
+      data-cid="element-b21Hga"
       value={{
         carouselRef,
         api: api,
@@ -120,6 +121,7 @@ const Carousel = React.forwardRef<
       }}
     >
       <div
+        data-cid="div-krQkLX"
         ref={ref}
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
@@ -139,8 +141,9 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
     const { carouselRef, orientation } = useCarousel();
 
     return (
-      <div ref={carouselRef} className="overflow-hidden">
+      <div data-cid="div-rf1jHh" ref={carouselRef} className="overflow-hidden">
         <div
+          data-cid="div-Ki2QaB"
           ref={ref}
           className={cn(
             'flex',
@@ -161,6 +164,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
 
     return (
       <div
+        data-cid="div-f01wN0"
         ref={ref}
         role="group"
         aria-roledescription="slide"
@@ -182,6 +186,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
 
     return (
       <Button
+        data-cid="Button-lKvK8r"
         ref={ref}
         variant={variant}
         size={size}
@@ -196,8 +201,10 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         onClick={scrollPrev}
         {...props}
       >
-        <ArrowLeft className="h-4 w-4" />
-        <span className="sr-only">Previous slide</span>
+        <ArrowLeft data-cid="ArrowLeft-KLcLFY" className="h-4 w-4" />
+        <span data-cid="span-fPVuK0" className="sr-only">
+          Previous slide
+        </span>
       </Button>
     );
   }
@@ -210,6 +217,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
 
     return (
       <Button
+        data-cid="Button-GaXEOR"
         ref={ref}
         variant={variant}
         size={size}
@@ -224,8 +232,10 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         onClick={scrollNext}
         {...props}
       >
-        <ArrowRight className="h-4 w-4" />
-        <span className="sr-only">Next slide</span>
+        <ArrowRight data-cid="ArrowRight-6ZWfiN" className="h-4 w-4" />
+        <span data-cid="span-zHhclj" className="sr-only">
+          Next slide
+        </span>
       </Button>
     );
   }

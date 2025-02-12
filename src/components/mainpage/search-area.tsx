@@ -22,11 +22,20 @@ export default function SearchArea() {
   return (
     <>
       <IconInput
+        data-cid="IconInput-Yn5qlu"
         className="mb-4"
         slots={{
-          icon: () => <SearchIcon width={32} height={32} fill="hsl(var(--secondary-foreground))" />,
+          icon: () => (
+            <SearchIcon
+              data-cid="SearchIcon-aPbBrs"
+              width={32}
+              height={32}
+              fill="hsl(var(--secondary-foreground))"
+            />
+          ),
           input: () => (
             <input
+              data-cid="input-zGUEtG"
               className="w-full bg-background outline-none"
               type="text"
               value={keyword}
@@ -36,54 +45,87 @@ export default function SearchArea() {
           ),
         }}
       />
-      <div className="flex items-center gap-6">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="w-full">
+      <div data-cid="div-FyG2z0" className="flex items-center gap-6">
+        <DropdownMenu data-cid="DropdownMenu-g4cXl7">
+          <DropdownMenuTrigger data-cid="DropdownMenuTrigger-Q3VmIz" className="w-full">
             <IconInput
+              data-cid="IconInput-FSS8M4"
               slots={{
                 icon: () => (
-                  <LocationIcon width={31.61} height={28} fill="hsl(var(--secondary-foreground))" />
+                  <LocationIcon
+                    data-cid="LocationIcon-zVGa6c"
+                    width={31.61}
+                    height={28}
+                    fill="hsl(var(--secondary-foreground))"
+                  />
                 ),
                 input: () => (
-                  <p className="w-full bg-background text-start">{location || '지역'}</p>
+                  <p data-cid="p-VaXtRF" className="w-full bg-background text-start">
+                    {location || '지역'}
+                  </p>
                 ),
               }}
             />
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuGroup className="max-h-96 overflow-y-auto">
+          <DropdownMenuContent data-cid="DropdownMenuContent-YzX7tS">
+            <DropdownMenuGroup
+              data-cid="DropdownMenuGroup-rkXFkb"
+              className="max-h-96 overflow-y-auto"
+            >
               {LostLocations.map((location) => (
-                <DropdownMenuItem key={location} onClick={() => setLocation(location)}>
+                <DropdownMenuItem
+                  data-cid="DropdownMenuItem-Rx9GKy"
+                  key={location}
+                  onClick={() => setLocation(location)}
+                >
                   {location}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger className="w-full">
+        <DropdownMenu data-cid="DropdownMenu-mnm5vL">
+          <DropdownMenuTrigger data-cid="DropdownMenuTrigger-WP5utb" className="w-full">
             <IconInput
+              data-cid="IconInput-eIm1t2"
               slots={{
                 icon: () => (
-                  <CategoryIcon width={31.61} height={28} fill="hsl(var(--secondary-foreground))" />
+                  <CategoryIcon
+                    data-cid="CategoryIcon-MdHaZD"
+                    width={31.61}
+                    height={28}
+                    fill="hsl(var(--secondary-foreground))"
+                  />
                 ),
                 input: () => (
-                  <p className="w-full bg-background text-start">{category || '상품 카테고리'}</p>
+                  <p data-cid="p-wIYMOO" className="w-full bg-background text-start">
+                    {category || '상품 카테고리'}
+                  </p>
                 ),
               }}
             />
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuGroup className="max-h-96 overflow-y-auto">
+          <DropdownMenuContent data-cid="DropdownMenuContent-17yADk">
+            <DropdownMenuGroup
+              data-cid="DropdownMenuGroup-g8UaKb"
+              className="max-h-96 overflow-y-auto"
+            >
               {LostCategories.map((category) => (
-                <DropdownMenuItem key={category} onClick={() => setCategory(category)}>
+                <DropdownMenuItem
+                  data-cid="DropdownMenuItem-oNYobI"
+                  key={category}
+                  onClick={() => setCategory(category)}
+                >
                   {category}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-        <button className="whitespace-nowrap rounded-xl bg-secondary-foreground px-8 py-[10px] text-center text-2xl font-bold text-secondary">
+        <button
+          data-cid="button-mlleZa"
+          className="whitespace-nowrap rounded-xl bg-secondary-foreground px-8 py-[10px] text-center text-2xl font-bold text-secondary"
+        >
           검색
         </button>
       </div>

@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -9,6 +11,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  compiler: isProduction ? { reactRemoveProperties: { properties: ['^data-cid$'] } } : {},
 };
 
 export default nextConfig;
