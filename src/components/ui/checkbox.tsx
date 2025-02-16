@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Check } from 'lucide-react';
 
@@ -23,7 +24,10 @@ const Checkbox = React.forwardRef<
       data-cid="element-C0VN9T"
       className={cn('flex items-center justify-center text-current')}
     >
-      <Check data-cid="Check-jF8iIH" className="h-4 w-4" />
+      <Check
+        data-cid="Check-jF8iIH"
+        className="h-4 w-4"
+      />
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ));

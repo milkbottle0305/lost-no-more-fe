@@ -1,7 +1,7 @@
-import { MoveRightIcon, PackageIcon } from 'lucide-react';
-import NumberCard from './number-card';
-import CategoryCard from './category-card';
 import { ReactNode } from 'react';
+
+import { MoveRightIcon, PackageIcon } from 'lucide-react';
+
 import LostCard from '../common/lost-card';
 import {
   Carousel,
@@ -10,6 +10,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '../ui/carousel';
+import CategoryCard from './category-card';
+import NumberCard from './number-card';
 
 export default function MainpageContent() {
   const categries: {
@@ -17,17 +19,32 @@ export default function MainpageContent() {
     icon: () => ReactNode;
   }[] = Array.from({ length: 6 }, () => ({
     name: '전자기기',
-    icon: () => <PackageIcon data-cid="PackageIcon-AV6Xx7" size={32} color="hsl(var(--primary))" />,
+    icon: () => (
+      <PackageIcon
+        data-cid="PackageIcon-AV6Xx7"
+        size={32}
+        color="hsl(var(--primary))"
+      />
+    ),
   }));
 
   return (
-    <div data-cid="div-2eWLfz" className="relative h-8 w-full bg-primary">
+    <div
+      data-cid="div-2eWLfz"
+      className="relative h-8 w-full bg-primary"
+    >
       <div
         data-cid="div-kdaNhi"
         className="absolute flex w-full justify-center gap-8 rounded-t-[2rem] bg-background py-10"
       >
-        <div data-cid="div-6k6F59" className="flex w-[890px] flex-col gap-10">
-          <div data-cid="div-691SVA" className="flex justify-between gap-24">
+        <div
+          data-cid="div-6k6F59"
+          className="flex w-[890px] flex-col gap-10"
+        >
+          <div
+            data-cid="div-691SVA"
+            className="flex justify-between gap-24"
+          >
             <NumberCard
               data-cid="NumberCard-WczZui"
               number={123}
@@ -39,11 +56,20 @@ export default function MainpageContent() {
               description="전체 등록된 분실물"
             />
           </div>
-          <div data-cid="div-DpMTE7" className="flex flex-col gap-6">
-            <p data-cid="p-pPeIPF" className="text-xl font-extrabold text-foreground">
+          <div
+            data-cid="div-DpMTE7"
+            className="flex flex-col gap-6"
+          >
+            <p
+              data-cid="p-pPeIPF"
+              className="text-xl font-extrabold text-foreground"
+            >
               카테고리
             </p>
-            <div data-cid="div-aymX7X" className="grid grid-cols-3 gap-x-10 gap-y-2.5">
+            <div
+              data-cid="div-aymX7X"
+              className="grid grid-cols-3 gap-x-10 gap-y-2.5"
+            >
               {categries.map((category, index) => (
                 <CategoryCard
                   data-cid="CategoryCard-4ApOtE"
@@ -54,13 +80,28 @@ export default function MainpageContent() {
               ))}
             </div>
           </div>
-          <div data-cid="div-gfl5wS" className="flex flex-col gap-6">
-            <div data-cid="div-aZhqrg" className="flex items-center justify-between">
-              <p data-cid="p-1P8CbO" className="text-xl font-extrabold text-foreground">
+          <div
+            data-cid="div-gfl5wS"
+            className="flex flex-col gap-6"
+          >
+            <div
+              data-cid="div-aZhqrg"
+              className="flex items-center justify-between"
+            >
+              <p
+                data-cid="p-1P8CbO"
+                className="text-xl font-extrabold text-foreground"
+              >
                 새로 등록된 관심 분실물
               </p>
-              <div data-cid="div-bN99AZ" className="flex cursor-pointer items-center gap-1">
-                <p data-cid="p-JrF39w" className="text-base text-muted-foreground">
+              <div
+                data-cid="div-bN99AZ"
+                className="flex cursor-pointer items-center gap-1"
+              >
+                <p
+                  data-cid="p-JrF39w"
+                  className="text-base text-muted-foreground"
+                >
                   전체보기
                 </p>
                 <MoveRightIcon
@@ -70,10 +111,17 @@ export default function MainpageContent() {
                 />
               </div>
             </div>
-            <Carousel data-cid="Carousel-YioP14" className="w-full">
+            <Carousel
+              data-cid="Carousel-YioP14"
+              className="w-full"
+            >
               <CarouselContent data-cid="CarouselContent-gI4pdQ">
                 {Array.from({ length: 9 }).map((_, index) => (
-                  <CarouselItem data-cid="CarouselItem-sbMufa" key={index} className="basis-1/3">
+                  <CarouselItem
+                    data-cid="CarouselItem-sbMufa"
+                    key={index}
+                    className="basis-1/3"
+                  >
                     <LostCard
                       data-cid="LostCard-glOAzq"
                       name="습득물 1"

@@ -18,7 +18,7 @@ const addDataCid = {
     },
     messages: {
       missingDataCid: 'JSX 엘리먼트에는 data-cid 속성이 필요합니다',
-      invalidDataCid: 'data-cid는 엘리먼트이름-[8자리 영숫자] 형식이어야 합니다 (예: div-a1B2c3D4)',
+      invalidDataCid: 'data-cid는 엘리먼트이름-[6자리 영숫자] 형식이어야 합니다 (예: div-a1Bc3D)',
     },
     schema: [
       {

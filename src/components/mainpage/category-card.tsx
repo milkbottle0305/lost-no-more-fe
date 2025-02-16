@@ -12,7 +12,10 @@ export default function CategoryCard({ slots, cateogry }: CategoryCardProps) {
       className="flex w-full flex-col items-center justify-center rounded-2xl py-4 shadow-lg"
     >
       {slots.icon && slots.icon()}
-      <p data-cid="p-XSlzd9" className="mt-2 text-base text-foreground">
+      <p
+        data-cid="p-XSlzd9"
+        className="mt-2 text-base text-foreground"
+      >
         {cateogry}
       </p>
     </div>

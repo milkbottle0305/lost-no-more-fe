@@ -1,10 +1,12 @@
 'use client';
 
 import * as React from 'react';
+
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+
 import { Button } from '@/components/ui/button';
 
 type CarouselApi = UseEmblaCarouselType[1];
@@ -141,7 +143,11 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
     const { carouselRef, orientation } = useCarousel();
 
     return (
-      <div data-cid="div-rf1jHh" ref={carouselRef} className="overflow-hidden">
+      <div
+        data-cid="div-rf1jHh"
+        ref={carouselRef}
+        className="overflow-hidden"
+      >
         <div
           data-cid="div-Ki2QaB"
           ref={ref}
@@ -201,8 +207,14 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         onClick={scrollPrev}
         {...props}
       >
-        <ArrowLeft data-cid="ArrowLeft-KLcLFY" className="h-4 w-4" />
-        <span data-cid="span-fPVuK0" className="sr-only">
+        <ArrowLeft
+          data-cid="ArrowLeft-KLcLFY"
+          className="h-4 w-4"
+        />
+        <span
+          data-cid="span-fPVuK0"
+          className="sr-only"
+        >
           Previous slide
         </span>
       </Button>
@@ -232,8 +244,14 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         onClick={scrollNext}
         {...props}
       >
-        <ArrowRight data-cid="ArrowRight-6ZWfiN" className="h-4 w-4" />
-        <span data-cid="span-zHhclj" className="sr-only">
+        <ArrowRight
+          data-cid="ArrowRight-6ZWfiN"
+          className="h-4 w-4"
+        />
+        <span
+          data-cid="span-zHhclj"
+          className="sr-only"
+        >
           Next slide
         </span>
       </Button>
