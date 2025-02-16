@@ -1,10 +1,8 @@
 import Link from 'next/link';
 
+import NotificationPopover from '../common/notification-popover';
+import UserButton from '../common/user-button';
 import LogoIcon from '../icons/logo-icon';
-import NotificationIcon from '../icons/notification-icon';
-import UserIcon from '../icons/user-icon';
-import { Card, CardTitle } from '../ui/card';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import SearchArea from './search-area';
 
 export default function SearchbarBanner() {
@@ -45,89 +43,11 @@ export default function SearchbarBanner() {
             </div>
           </Link>
           <div
-            data-cid="div-Bdc7vW"
-            className="flex items-center"
+            data-cid="div-6R7jNw"
+            className="flex items-center gap-4"
           >
-            <Popover data-cid="Popover-134msZ">
-              <PopoverTrigger
-                data-cid="PopoverTrigger-EQ7xQI"
-                className="mr-4"
-              >
-                <NotificationIcon
-                  data-cid="NotificationIcon-tM92Oy"
-                  width={36}
-                  height={36}
-                  fill="hsl(var(--background))"
-                />
-              </PopoverTrigger>
-              <PopoverContent
-                data-cid="PopoverContent-AWPvgE"
-                asChild
-              >
-                <Card
-                  data-cid="Card-AABAAF"
-                  className="w-[260px]"
-                >
-                  <CardTitle
-                    data-cid="CardTitle-bOjrvh"
-                    className="pb-2"
-                  >
-                    알림
-                  </CardTitle>
-                  <ul data-cid="ul-ONjPUZ">
-                    <li data-cid="li-Phy968">
-                      <div
-                        data-cid="div-y38hvE"
-                        className="border-1 border-t border-solid border-border px-1 py-3"
-                      >
-                        <p
-                          data-cid="p-jM6s7P"
-                          className="mb-1 line-clamp-2 w-full text-sm text-foreground"
-                        >
-                          2025.01.11 오전 6시 기준 &apos;에어팟&apos; 키워드가 포함된 물품이 18건
-                          등록되었습니다.
-                        </p>
-                        <p
-                          data-cid="p-UZP4Ty"
-                          className="text-sm text-secondary-foreground"
-                        >
-                          01. 11. 04:00
-                        </p>
-                      </div>
-                      <div
-                        data-cid="div-StE3Ta"
-                        className="border-1 border-t border-solid border-border px-1 py-3"
-                      >
-                        <p
-                          data-cid="p-GZJ3FG"
-                          className="mb-1 line-clamp-2 w-full text-sm text-foreground"
-                        >
-                          2025.01.11 오전 6시 기준 &apos;에어팟&apos; 키워드가 포함된 물품이 18건
-                          등록되었습니다.
-                        </p>
-                        <p
-                          data-cid="p-fxoi9e"
-                          className="text-sm text-secondary-foreground"
-                        >
-                          01. 11. 04:00
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </Card>
-              </PopoverContent>
-            </Popover>
-            <button
-              data-cid="button-Ai24xL"
-              className="rounded-sm p-2 hover:bg-secondary"
-            >
-              <UserIcon
-                data-cid="UserIcon-OdJ36E"
-                width={32}
-                height={32}
-                fill="hsl(var(--background))"
-              />
-            </button>
+            <NotificationPopover data-cid="NotificationPopover-aluuHf" />
+            <UserButton data-cid="UserButton-dmwzgv" />
           </div>
         </div>
         <p

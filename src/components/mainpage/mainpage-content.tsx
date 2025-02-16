@@ -124,6 +124,7 @@ export default function MainpageContent() {
                   >
                     <LostCard
                       data-cid="LostCard-glOAzq"
+                      id={index}
                       name="습득물 1"
                       image={'https://sitem.ssgcdn.com/26/64/85/item/1000277856426_i1_750.jpg'}
                       category={'지갑'}
