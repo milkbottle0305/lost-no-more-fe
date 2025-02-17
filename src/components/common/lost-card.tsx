@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import clsx from 'clsx';
 
 import { Clock10Icon, MapPinIcon } from 'lucide-react';
 
@@ -11,8 +12,15 @@ export interface LostCardProps {
   category: string;
   location: string;
   acquisitionDate: string;
+  size?: 'sm' | 'md' | 'lg';
   onClick?: (id: number) => void;
 }
+
+const sizeClasses = {
+  sm: 'w-[200px]',
+  md: 'w-[240px]',
+  lg: 'w-[270px]',
+};
 
 export default function LostCard({
   id,
@@ -21,6 +29,7 @@ export default function LostCard({
   category,
   location,
   acquisitionDate,
+  size = 'lg',
   onClick,
 }: LostCardProps) {
   const handleClick = () => {
@@ -30,7 +39,10 @@ export default function LostCard({
   return (
     <div
       data-cid="div-bALPd0"
-      className="relative box-border flex w-[274px] shrink-0 cursor-pointer flex-col overflow-hidden rounded-xl border-2 border-solid border-border"
+      className={clsx(
+        'relative flex cursor-pointer flex-col overflow-hidden rounded-xl border-2 border-solid border-border',
+        sizeClasses[size]
+      )}
       onClick={handleClick}
     >
       <div
@@ -41,7 +53,7 @@ export default function LostCard({
       </div>
       <div
         data-cid="div-7cMEXT"
-        className="relative h-[165px] w-[270px]"
+        className={clsx('relative aspect-[16/9] w-full')}
       >
         <Image
           data-cid="Image-5lTzOJ"
@@ -68,7 +80,7 @@ export default function LostCard({
           <MapPinIcon
             data-cid="MapPinIcon-4pMwpW"
             size={16}
-            color="hsl(var(--muted-foreground))"
+            color="hsl(var(--muted-foreground)"
           />
           <p
             data-cid="p-8R3WLW"

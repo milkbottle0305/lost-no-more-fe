@@ -1,5 +1,4 @@
 import Link from 'next/link';
-
 import LogoIcon from '../icons/logo-icon';
 import NotificationPopover from './notification-popover';
 import Searchbar from './searchbar';

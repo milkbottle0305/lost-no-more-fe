@@ -1,5 +1,4 @@
 import { BellIcon } from 'lucide-react';
-
 import { Card, CardTitle } from '../ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 

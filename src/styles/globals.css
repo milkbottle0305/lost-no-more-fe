@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  @apply font-sans;
 }
 
 @layer base {
@@ -20,7 +20,7 @@ body {
     --input: 227 9% 92%;
     --primary: 227 98% 63%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 92%;
+    --secondary: 210 27% 96%;
     --secondary-foreground: 223 26% 33%;
     --accent: 0 0% 92%;
     --accent-foreground: 0 0% 32%;
