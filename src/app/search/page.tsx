@@ -1,11 +1,10 @@
-import { LostNoMoreMapProvider } from '@/contexts/lost-no-more-map-context';
-import { MapPanelProvider } from '@/contexts/map-panel-context';
-import { SearchProvider } from '@/contexts/search-context';
-
-import Headerbar from '@/components/common/headerbar';
-import LostNoMoreMap from '@/components/searchpage/lost-no-more-map';
-import MapPanelSwitch from '@/components/searchpage/map-panel-switch';
-import SearchFilter from '@/components/searchpage/search-filter';
+import LostNoMoreMap from '@/domain/map/components/lost-no-more-map';
+import MapPanelSwitch from '@/domain/map/components/map-panel-switch';
+import { LostNoMoreMapProvider } from '@/domain/map/contexts/lost-no-more-map-context';
+import { MapPanelProvider } from '@/domain/map/contexts/map-panel-context';
+import SearchFilter from '@/domain/search/components/search-filter';
+import { SearchProvider } from '@/domain/search/contexts/search-context';
+import Headerbar from '@/shared/components/headerbar';
 
 export default function SearchPage() {
   return (

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
-import '@/styles/globals.css';
+
 import RootLayout from '@/app/layout';
+
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: '마이페이지 - 잃.없.다',

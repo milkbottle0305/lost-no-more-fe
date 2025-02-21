@@ -1,5 +1,6 @@
-import MainpageContent from '@/components/mainpage/mainpage-content';
-import SearchbarBanner from '@/components/mainpage/searchbar-banner';
+import SearchbarBanner from '@/domain/search/components/searchbar-banner';
+
+import MainpageContent from './_containers/mainpage-content';
 
 export default function Home() {
   return (

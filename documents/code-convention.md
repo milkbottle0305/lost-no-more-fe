@@ -1,12 +1,67 @@
 # Lost-No-More 코드 컨벤션 가이드
 
 ## 목차
-1. [TypeScript 규칙](#typescript-규칙)
-2. [React 규칙](#react-규칙)
-3. [Import/Export 규칙](#importexport-규칙)
-4. [코드 품질 규칙](#코드-품질-규칙)
-5. [테스트 규칙](#테스트-규칙)
-6. [포맷팅 규칙](#포맷팅-규칙)
+1. [프로젝트 아키텍처](#프로젝트-아키텍처)
+2. [TypeScript 규칙](#typescript-규칙)
+3. [React 규칙](#react-규칙)
+4. [Import/Export 규칙](#importexport-규칙)
+5. [코드 품질 규칙](#코드-품질-규칙)
+6. [테스트 규칙](#테스트-규칙)
+7. [포맷팅 규칙](#포맷팅-규칙)
+
+## 프로젝트 아키텍처
+
+### 1. 기본 구조
+프로젝트는 다음과 같은 주요 디렉토리 구조를 따릅니다:
+
+```
+src/
+├── app/
+├── domain/
+│   ├── search/
+│   ├── lost-item/
+│   ├── map/
+│   ├── notification/
+│   └── auth/
+└── shared/
+```
+
+### 2. 디렉토리 설명
+
+#### domain/
+비즈니스 도메인별로 분리된 기능들을 포함합니다. 현재 다음 도메인들이 있습니다:
+- search: 검색 관련 기능
+- lost-item: 분실물 관련 기능
+- map: 지도 관련 기능
+- notification: 알림 관련 기능
+- auth: 인증 관련 기능
+
+**※ domain 영역에서 shared 영역을 참조할 수 있지만, 다른 domain영역은 가능한 참조하지 않도록 합니다.**
+ex) search/는 search/ 내부의 컴포넌트를 참조할 수 있지만, lost-item/의 컴포넌트를 참조하지 않습니다.
+
+#### shared/
+여러 도메인에서 공유될 수 있는 공통 기능들을 포함합니다. 재사용 가능한 유틸리티, 컴포넌트 등이 이 디렉토리에 위치합니다:
+
+- ui: 재사용 가능한 UI 컴포넌트 (shadcn/ui)
+- components: ui를 활용하여 가공한 전역 컴포넌트(헤더바, 푸터, 네비게이션 바 등)
+- types: 전역 타입
+
+**※ shared 영역은 domain 영역을 가능한 참조하지 않도록 합니다.**
+
+
+### 3. 하위 디렉토리 구조
+각 도메인 디렉토리와 shared 디렉토리는 다음과 같은 하위 디렉토리 구조를 가질 수 있습니다:
+
+```
+domain/[도메인명]/ 또는 shared/
+├── components/     # UI 컴포넌트
+├── hooks/          # 비즈니스 로직 및 커스텀 훅
+├── store/          # 상태 관리 로직
+├── contexts/       # Context API
+├── queries/        # API 요청 관련 로직
+├── mocks/          # 목업 데이터
+└── types/          # 타입 정의
+```
 
 ## TypeScript 규칙
 
