@@ -2,7 +2,8 @@ import type { ReactNode } from 'react';
 
 import CategoryCard from '@/domain/lost-item/components/category-card';
 import LostCard from '@/domain/lost-item/components/lost-card';
-import NumberCard from '@/domain/lost-item/components/number-card';
+import { getItemsCount } from '@/domain/lost-item/queries/getItemsCount';
+import type { LostCategory } from '@/shared/types/lost-property';
 import {
   Carousel,
   CarouselContent,
@@ -12,12 +13,10 @@ import {
 } from '@/shared/ui/carousel';
 import { MoveRightIcon, PackageIcon } from 'lucide-react';
 
-export default function MainpageContent() {
-  const categries: {
-    name: string;
-    icon: () => ReactNode;
-  }[] = Array.from({ length: 6 }, () => ({
-    name: '전자기기',
+function CategoryCards() {
+  const names: LostCategory[] = ['전자기기', '지갑', '가방', '의류', '휴대폰', '현금'];
+  const categries: { name: LostCategory; icon: () => ReactNode }[] = names.map((name) => ({
+    name,
     icon: () => (
       <PackageIcon
         data-cid="PackageIcon-AV6Xx7"
@@ -27,6 +26,70 @@ export default function MainpageContent() {
     ),
   }));
 
+  return (
+    <div
+      data-cid="div-aymX7X"
+      className="grid grid-cols-3 gap-x-10 gap-y-2.5"
+    >
+      {categries.map((category) => (
+        <CategoryCard
+          data-cid="CategoryCard-4ApOtE"
+          key={category.name}
+          slots={{ icon: category.icon }}
+          cateogry={category.name}
+        />
+      ))}
+    </div>
+  );
+}
+
+async function CountCards() {
+  const data = await getItemsCount();
+  return (
+    <div
+      data-cid="div-691SVA"
+      className="flex justify-between gap-24"
+    >
+      <div
+        data-cid="div-wMCIBK"
+        className="flex w-full flex-col items-center justify-center rounded-2xl py-4 shadow-lg"
+      >
+        <p
+          data-cid="p-WJ9ETQ"
+          className="mb-2 text-4xl font-bold text-primary"
+        >
+          {data.data.today.toLocaleString()}
+        </p>
+        <p
+          data-cid="p-B4pETk"
+          className="text-base text-muted-foreground"
+        >
+          금일 등록 분실물
+        </p>
+      </div>
+
+      <div
+        data-cid="div-wMCIBK"
+        className="flex w-full flex-col items-center justify-center rounded-2xl py-4 shadow-lg"
+      >
+        <p
+          data-cid="p-WJ9ETQ"
+          className="mb-2 text-4xl font-bold text-primary"
+        >
+          {data.data.total.toLocaleString()}
+        </p>
+        <p
+          data-cid="p-B4pETk"
+          className="text-base text-muted-foreground"
+        >
+          전체 등록 분실물
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default function MainpageContent() {
   return (
     <div
       data-cid="div-2eWLfz"
@@ -40,21 +103,7 @@ export default function MainpageContent() {
           data-cid="div-6k6F59"
           className="flex w-[890px] flex-col gap-10"
         >
-          <div
-            data-cid="div-691SVA"
-            className="flex justify-between gap-24"
-          >
-            <NumberCard
-              data-cid="NumberCard-WczZui"
-              number={123}
-              description="금일 등록된 분실물"
-            />
-            <NumberCard
-              data-cid="NumberCard-lIgmji"
-              number={23456}
-              description="전체 등록된 분실물"
-            />
-          </div>
+          <CountCards data-cid="CountCards-bmQEbY" />
           <div
             data-cid="div-DpMTE7"
             className="flex flex-col gap-6"
@@ -65,19 +114,7 @@ export default function MainpageContent() {
             >
               카테고리
             </p>
-            <div
-              data-cid="div-aymX7X"
-              className="grid grid-cols-3 gap-x-10 gap-y-2.5"
-            >
-              {categries.map((category) => (
-                <CategoryCard
-                  data-cid="CategoryCard-4ApOtE"
-                  key={category.name}
-                  slots={{ icon: category.icon }}
-                  cateogry={category.name}
-                />
-              ))}
-            </div>
+            <CategoryCards data-cid="CategoryCards-2M4vRt" />
           </div>
           <div
             data-cid="div-gfl5wS"

@@ -57,7 +57,7 @@ const categoryIcons = {
   지갑: Wallet,
   증명서: ScrollText,
   컴퓨터: Monitor,
-  카트: CreditCard,
+  카드: CreditCard,
   현금: Banknote,
   휴대폰: Phone,
   기타물품: Box,

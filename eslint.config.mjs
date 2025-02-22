@@ -1,5 +1,6 @@
 // eslint.config.mjs
 import { FlatCompat } from '@eslint/eslintrc';
+import queryPlugin from '@tanstack/eslint-plugin-query';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import vitestPlugin from '@vitest/eslint-plugin';
@@ -44,6 +45,7 @@ const eslintConfig = [
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       '@typescript-eslint': tsPlugin,
+      '@tanstack/query': queryPlugin,
       import: importPlugin,
       'lost-no-more-eslint': {
         rules: { 'add-data-cid': addDataCid },
@@ -91,6 +93,11 @@ const eslintConfig = [
       'react-hooks/exhaustive-deps': 'error',
       'react/self-closing-comp': 'error',
       'react/no-array-index-key': 'warn',
+
+      // react-query 규칙
+      '@tanstack/query/exhaustive-deps': 'error',
+      '@tanstack/query/stable-query-client': 'error',
+      '@tanstack/query/infinite-query-property-order': 'warn',
 
       // Import/Export 관련 규칙
       'import/no-duplicates': 'error',
