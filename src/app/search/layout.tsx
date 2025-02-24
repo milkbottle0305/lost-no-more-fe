@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
-import RootLayout from '@/app/layout';
-
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -22,7 +20,7 @@ export default function SearchLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <RootLayout data-cid="RootLayout-GEY06V">
+    <div data-cid="div-9ihoGu">
       <Script
         data-cid="Script-cqf34K"
         type="text/javascript"
@@ -30,6 +28,6 @@ export default function SearchLayout({
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4c94c5b2b00b891ab0cba39babe41050&libraries=clusterer,drawing&autoload=false"
       />
       {children}
-    </RootLayout>
+    </div>
   );
 }

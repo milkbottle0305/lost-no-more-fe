@@ -1,5 +1,8 @@
 export interface Response<T> {
   isSuccess: boolean;
   data: T;
-  error: object;
+  error: null | {
+    code: number;
+    message: string;
+  };
 }

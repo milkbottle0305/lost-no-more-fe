@@ -1,78 +1,81 @@
-import GoogleIcon from '@/shared/icons/google-icon';
-import KakaotalkIcon from '@/shared/icons/kakaotalk-icon';
-import { DialogHeader } from '@/shared/ui/dialog';
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
-import { Button } from 'react-day-picker';
+import { useLogin } from '@/domain/auth/hooks/useLogin';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/ui/dialog';
+
+import LoginProcess from './login-process';
+import SocialLoginButton from './social-login-button';
 
 interface LoginPopupProps {
   open: boolean;
   onClose: () => void;
+  onLoginSuccess?: () => void;
 }
 
-export default function LoginPopup({ open, onClose }: LoginPopupProps) {
+export default function LoginPopup({ open, onClose, onLoginSuccess }: LoginPopupProps) {
+  const { handleLogin, error, isProcessing } = useLogin(onLoginSuccess, onClose);
+
   return (
     <Dialog
-      data-cid="Dialog-s6KaCg"
+      data-cid="Dialog-VT0ye7"
       open={open}
       onOpenChange={onClose}
     >
       <DialogContent
-        data-cid="DialogContent-UNt3ec"
+        data-cid="DialogContent-xSnJhK"
         className="max-w-xl rounded-lg p-16"
       >
-        <DialogHeader
-          data-cid="DialogHeader-Np1au7"
-          className="mb-4"
-        >
-          <DialogTitle
-            data-cid="DialogTitle-igxSdH"
-            className="text-center text-2xl font-bold"
-          >
-            로그인
-          </DialogTitle>
-          <DialogDescription
-            data-cid="DialogDescription-7LSZuk"
-            className="text-center text-sm text-muted-foreground"
-          >
-            소중한 물건을 찾고 계신가요? 로그인하고 맞춤 알림을 받아보세요.
-          </DialogDescription>
-        </DialogHeader>
-        <Button
-          data-cid="Button-B8QSWL"
-          className="relative flex h-11 w-full items-center bg-gray-100 text-lg font-bold text-black hover:bg-gray-200"
-        >
-          <KakaotalkIcon
-            data-cid="KakaotalkIcon-2X4EVZ"
-            className="absolute left-4"
-            width={24}
-            height={24}
-            fill="hsl(var(--secondary-foreground))"
-          />
-          <span
-            data-cid="span-REL7mu"
-            className="mx-auto text-secondary-foreground"
-          >
-            Kakao로 로그인
-          </span>
-        </Button>
-        <Button
-          data-cid="Button-qtTxhE"
-          className="relative flex h-11 w-full items-center bg-gray-100 text-lg font-bold text-black hover:bg-gray-200"
-        >
-          <GoogleIcon
-            data-cid="GoogleIcon-lXtxIS"
-            className="absolute left-4"
-            width={24}
-            height={24}
-            fill="hsl(var(--secondary-foreground))"
-          />
-          <span
-            data-cid="span-M3ltR4"
-            className="mx-auto text-secondary-foreground"
-          >
-            Google로 로그인
-          </span>
-        </Button>
+        {!isProcessing ? (
+          <>
+            <DialogHeader
+              data-cid="DialogHeader-4XqRj7"
+              className="mb-4"
+            >
+              <DialogTitle
+                data-cid="DialogTitle-DXApVY"
+                className="text-center text-2xl font-bold"
+              >
+                로그인
+              </DialogTitle>
+
+              <DialogDescription
+                data-cid="DialogDescription-UTbHBp"
+                className="text-center text-sm text-muted-foreground"
+              >
+                소중한 물건을 찾고 계신가요? 로그인하고 맞춤 알림을 받아보세요.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div
+              data-cid="div-4rQRwg"
+              className="space-y-4"
+            >
+              <SocialLoginButton
+                data-cid="SocialLoginButton-1BSzuD"
+                provider="kakao"
+                onLogin={() => handleLogin('kakao')}
+              />
+              <SocialLoginButton
+                data-cid="SocialLoginButton-j95p5W"
+                provider="google"
+                onLogin={() => handleLogin('google')}
+              />
+            </div>
+
+            <div
+              data-cid="div-sYOmbO"
+              className="text-destructive text-sm text-center"
+            >
+              {error}
+            </div>
+          </>
+        ) : (
+          <LoginProcess data-cid="LoginProcess-SBvomE" />
+        )}
       </DialogContent>
     </Dialog>
   );

@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 
-import RootLayout from '@/app/layout';
-
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -9,10 +7,10 @@ export const metadata: Metadata = {
   description: '사용자님의 개인 설정 및 알림을 관리할 수 있는 마이페이지입니다.',
 };
 
-export default function SearchLayout({
+export default function MyPageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <RootLayout data-cid="RootLayout-xWayzS">{children}</RootLayout>;
+  return <div data-cid="div-dW3pBe">{children}</div>;
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import type { LostItem } from '@/domain/lost-item/mocks/data';
+import LoadingSpinner from '@/shared/components/loading-spinner';
 import { VirtualGrid } from '@/shared/components/virtual-grid';
 import type { Virtualizer } from '@tanstack/react-virtual';
-import { Loader2 } from 'lucide-react';
 
 import LostCard from './lost-card';
 
@@ -47,9 +47,10 @@ export default function LostItemsGrid({
   );
 
   const LoadingComponent = (
-    <Loader2
+    <LoadingSpinner
       data-cid={`${dataCid}-loader`}
-      className="h-12 w-12 animate-spin text-gray-500"
+      size="lg"
+      color="text-muted-foreground"
     />
   );
 
