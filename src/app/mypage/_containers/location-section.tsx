@@ -1,4 +1,5 @@
 import { LostLocations } from '@/shared/types/lost-property';
+import { Button } from '@/shared/ui/button';
 import {
   Card,
   CardContent,
@@ -15,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@radix-ui/react-select';
-import { Button } from '@/shared/ui/button';
 
 export const LocationsSection = () => {
   return (

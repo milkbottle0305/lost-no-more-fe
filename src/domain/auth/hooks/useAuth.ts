@@ -1,14 +1,22 @@
+import { useEffect, useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import type { Provider } from '@/shared/types/api-endpoint';
+import { isTokenExpired } from '@/shared/utils/jwt-utils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { authApi } from '../apis/auth';
-import { isTokenExpired } from '@/shared/utils/jwt-utils';
 
 export function useAuth() {
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const getAuthState = () => {
     if (typeof window === 'undefined') {
@@ -25,8 +33,9 @@ export function useAuth() {
     const isExpired = isTokenExpired(token);
 
     if (token && isExpired) {
-      authApi.reissueToken()
-        .then(response => {
+      authApi
+        .reissueToken()
+        .then((response) => {
           if (response.isSuccess && response.data) {
             localStorage.setItem('accessToken', response.data);
             queryClient.invalidateQueries({ queryKey: ['auth'] });
@@ -66,10 +75,6 @@ export function useAuth() {
     queryFn: getAuthState,
     staleTime: Infinity,
   });
-
-  const getOAuthUrl = async (provider: Provider, token?: string, state?: string) => {
-    return authApi.getOAuthUrl(provider, token, state);
-  };
 
   const tokenMutation = useMutation({
     mutationFn: ({
@@ -141,7 +146,6 @@ export function useAuth() {
 
   const withdrawMutation = useMutation({
     mutationFn: async ({ provider, code }: { provider: Provider; code?: string }) => {
-
       const token = localStorage.getItem('accessToken');
       if (!token) {
         throw new Error('액세스 토큰이 없습니다.');
@@ -178,27 +182,26 @@ export function useAuth() {
 
   const withdraw = (provider: Provider, code?: string, callback?: () => void) => {
     if (provider === 'google' && !code) {
-      getOAuthUrl(provider, undefined, 'withdrawal')
-        .then((response) => {
-          if (response.isSuccess && response.data) {
-            window.open(response.data, 'googleAuth', 'width=500,height=600');
-            
-            const handleMessage = (event: MessageEvent) => {
-              if (
-                event.origin === window.location.origin &&
-                event.data.type === 'GOOGLE_AUTH_CALLBACK' &&
-                event.data.code
-              ) {
-                window.removeEventListener('message', handleMessage);
-                
-                withdraw(provider, event.data.code, callback);
-              }
-            };
-            
-            window.addEventListener('message', handleMessage);
-          }
-        });
-      
+      authApi.getOAuthUrl(provider, undefined, 'withdrawal').then((response) => {
+        if (response.isSuccess && response.data) {
+          window.open(response.data, 'googleAuth', 'width=500,height=600');
+
+          const handleMessage = (event: MessageEvent) => {
+            if (
+              event.origin === window.location.origin &&
+              event.data.type === 'GOOGLE_AUTH_CALLBACK' &&
+              event.data.code
+            ) {
+              window.removeEventListener('message', handleMessage);
+
+              withdraw(provider, event.data.code, callback);
+            }
+          };
+
+          window.addEventListener('message', handleMessage);
+        }
+      });
+
       return;
     }
     withdrawMutation.mutate(
@@ -228,9 +231,24 @@ export function useAuth() {
     );
   };
 
+  if (!isHydrated) {
+    return {
+      isLoggedIn: false,
+      accessToken: null,
+      provider: null,
+      getOAuthUrl: authApi.getOAuthUrl,
+      getToken: tokenMutation.mutate,
+      isLoading: true,
+      error: null,
+      logout,
+      withdraw,
+      isWithdrawing: false,
+    };
+  }
+
   return {
     ...auth,
-    getOAuthUrl,
+    getOAuthUrl: authApi.getOAuthUrl,
     getToken: tokenMutation.mutate,
     isLoading: tokenMutation.isPending || logoutMutation.isPending || withdrawMutation.isPending,
     error: tokenMutation.error || logoutMutation.error || withdrawMutation.error,

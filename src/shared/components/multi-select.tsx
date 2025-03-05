@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { type VariantProps, cva } from 'class-variance-authority';
 import { CheckIcon, ChevronDown, XCircle, XIcon } from 'lucide-react';
-import { Button } from '../ui/button';
 
 import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
 import {
   Command,
   CommandEmpty,

@@ -16,6 +16,8 @@ export const ApiEndpoint = {
   WITHDRAW: (provider: Provider) => `auth/${provider}/withdraw`,
   REISSUE: 'auth/reissue',
 
+  NOTIFICATIONS: 'alarm',
+
   ITEMS_COUNT: 'items/count',
   ITEMS_SEARCH_MAP: 'items/search/map',
 } as const;

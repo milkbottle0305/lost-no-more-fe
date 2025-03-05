@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 
+import { useSearchParams } from 'next/navigation';
 
 export default function CallbackPage() {
   const searchParams = useSearchParams();
@@ -10,14 +10,14 @@ export default function CallbackPage() {
   useEffect(() => {
     const code = searchParams.get('code');
     const state = searchParams.get('state');
-    
+
     if (code) {
       if (state === 'withdrawal') {
-        window.opener?.postMessage({ type: 'GOOGLE_AUTH_CALLBACK', code}, window.location.origin);
+        window.opener?.postMessage({ type: 'GOOGLE_AUTH_CALLBACK', code }, window.location.origin);
       } else {
         window.opener?.postMessage({ type: 'OAUTH_CALLBACK', code }, window.location.origin);
       }
-      
+
       setTimeout(() => {
         window.close();
       }, 1000);

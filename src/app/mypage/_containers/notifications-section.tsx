@@ -6,6 +6,7 @@ import KeywordInput from '@/domain/notification/components/keyword-input';
 import KeywordList from '@/domain/notification/components/keyword-list';
 import KeywordSettings from '@/domain/notification/components/keyword-settings';
 import CustomSwitch from '@/shared/components/custom-switch';
+import { Button } from '@/shared/ui/button';
 import {
   Card,
   CardContent,
@@ -15,7 +16,6 @@ import {
   CardTitle,
 } from '@/shared/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
-import { Button } from '@/shared/ui/button';
 
 export const NotificationsSection = () => {
   const [keywords, setKeywords] = useState<string[]>([]);

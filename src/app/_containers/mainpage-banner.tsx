@@ -1,12 +1,12 @@
 import Link from 'next/link';
 
 import UserButton from '@/domain/auth/components/user-button';
-import NotificationPopover from '@/domain/notification/components/notification-popover';
+import SearchArea from '@/domain/search/components/search-area';
 import LogoIcon from '@/shared/icons/logo-icon';
 
-import SearchArea from './search-area';
+import NotificationPopoverLoader from './notification-popover-loader';
 
-export default function SearchbarBanner() {
+export default function MainpageBanner() {
   return (
     <div
       data-cid="div-aOTfH3"
@@ -47,7 +47,7 @@ export default function SearchbarBanner() {
             data-cid="div-6R7jNw"
             className="flex items-center gap-4"
           >
-            <NotificationPopover data-cid="NotificationPopover-aluuHf" />
+            <NotificationPopoverLoader data-cid="NotificationPopoverLoader-avHJpT" />
             <UserButton data-cid="UserButton-dmwzgv" />
           </div>
         </div>
