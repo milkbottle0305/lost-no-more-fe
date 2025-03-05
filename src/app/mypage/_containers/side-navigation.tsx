@@ -1,6 +1,7 @@
+import { useAuth } from '@/domain/auth/hooks/useAuth';
 import type { SectionType } from '@/shared/types/section';
 import { Card, CardContent } from '@/shared/ui/card';
-import { Bell, ChevronRight, CircleHelp, MapPin } from 'lucide-react';
+import { Bell, ChevronRight, CircleHelp, LogOut, MapPin } from 'lucide-react';
 
 interface menuItems {
   id: SectionType;
@@ -47,6 +48,12 @@ interface SideNavigationProps {
 }
 
 export const SideNavigation = ({ activeSection, onSectionChange }: SideNavigationProps) => {
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <Card data-cid="Card-aCpuQp">
       <CardContent
@@ -75,6 +82,22 @@ export const SideNavigation = ({ activeSection, onSectionChange }: SideNavigatio
             />
           </button>
         ))}
+        <button
+          data-cid="button-rZ2Fk3"
+          onClick={handleLogout}
+          className="mb-1 flex w-full items-center justify-between rounded-lg p-3 text-base text-destructive"
+        >
+          <div
+            data-cid="div-4Tp9ps"
+            className="flex items-center gap-2"
+          >
+            <LogOut
+              data-cid="LogOut-3iK6m4"
+              className="h-4 w-4"
+            />
+            <span data-cid="span-gMWpTW">로그아웃</span>
+          </div>
+        </button>
       </CardContent>
     </Card>
   );

@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@radix-ui/react-select';
-import { Button } from 'react-day-picker';
+import { Button } from '@/shared/ui/button';
 
 export const LocationsSection = () => {
   return (

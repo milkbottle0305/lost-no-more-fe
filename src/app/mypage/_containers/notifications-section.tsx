@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from '@/shared/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
-import { Button } from 'react-day-picker';
+import { Button } from '@/shared/ui/button';
 
 export const NotificationsSection = () => {
   const [keywords, setKeywords] = useState<string[]>([]);

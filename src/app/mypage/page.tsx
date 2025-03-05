@@ -3,6 +3,7 @@
 import type { JSX } from 'react';
 import React, { useState } from 'react';
 
+import { WithdrawButton } from '@/domain/auth/components/withdraw-button';
 import Headerbar from '@/shared/components/headerbar';
 import { SwitchCase } from '@/shared/components/switch-case';
 import type { SectionType } from '@/shared/types/section';
@@ -35,7 +36,7 @@ export default function MyPage() {
           data-cid="h1-S1iqHU"
           className="text-2xl font-bold"
         >
-          username님의 마이페이지
+          마이페이지
         </h1>
       </div>
       <div
@@ -51,6 +52,12 @@ export default function MyPage() {
             activeSection={activeSection}
             onSectionChange={(section: string) => setActiveSection(section as SectionType)}
           />
+          <div
+            data-cid="div-j7PhSo"
+            className="mt-4 w-full justify-center flex"
+          >
+            <WithdrawButton data-cid="WithdrawButton-1wL7jw" />
+          </div>
         </div>
         <div
           data-cid="div-epqpvX"
