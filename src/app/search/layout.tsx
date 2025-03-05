@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 
 import '@/styles/globals.css';
 
@@ -19,15 +18,5 @@ export default function SearchLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <div data-cid="div-9ihoGu">
-      <Script
-        data-cid="Script-cqf34K"
-        type="text/javascript"
-        strategy="beforeInteractive"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4c94c5b2b00b891ab0cba39babe41050&libraries=clusterer,drawing&autoload=false"
-      />
-      {children}
-    </div>
-  );
+  return <div data-cid="div-NcVupu">{children}</div>;
 }

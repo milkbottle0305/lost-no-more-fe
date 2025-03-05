@@ -20,5 +20,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
       })
   );
 
-  return <QueryClientProvider data-cid="QueryClientProvider-0CCqS6" client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <QueryClientProvider
+      data-cid="QueryClientProvider-0CCqS6"
+      client={queryClient}
+    >
+      {children}
+    </QueryClientProvider>
+  );
 }

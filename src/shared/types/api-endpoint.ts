@@ -17,4 +17,5 @@ export const ApiEndpoint = {
   REISSUE: 'auth/reissue',
 
   ITEMS_COUNT: 'items/count',
+  ITEMS_SEARCH_MAP: 'items/search/map',
 } as const;

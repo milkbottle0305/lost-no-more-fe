@@ -9,9 +9,9 @@ interface ItemsCountData {
   total: number;
 }
 
-export type ItemsCountResponse = Response<ItemsCountData>;
+type ItemsCountResponse = Response<ItemsCountData>;
 
-export async function getItemsCount(): Promise<ItemsCountResponse> {
+export async function fetchItemsCount(): Promise<ItemsCountResponse> {
   return await ApiClient.get(ApiEndpoint.ITEMS_COUNT, {
     next: {
       revalidate: ITEMS_COUNT_REVALIDATE_MS,

@@ -1,9 +1,5 @@
-import type { ReactNode } from 'react';
-
-import CategoryCard from '@/domain/lost-item/components/category-card';
 import LostCard from '@/domain/lost-item/components/lost-card';
-import { getItemsCount } from '@/domain/lost-item/queries/getItemsCount';
-import type { LostCategory } from '@/shared/types/lost-property';
+import { fetchItemsCount } from '@/domain/lost-item/queries/fetchItemsCount';
 import {
   Carousel,
   CarouselContent,
@@ -11,40 +7,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/shared/ui/carousel';
-import { MoveRightIcon, PackageIcon } from 'lucide-react';
+import { MoveRightIcon } from 'lucide-react';
 
-function CategoryCards() {
-  const names: LostCategory[] = ['전자기기', '지갑', '가방', '의류', '휴대폰', '현금'];
-  const categries: { name: LostCategory; icon: () => ReactNode }[] = names.map((name) => ({
-    name,
-    icon: () => (
-      <PackageIcon
-        data-cid="PackageIcon-AV6Xx7"
-        size={32}
-        color="hsl(var(--primary))"
-      />
-    ),
-  }));
-
-  return (
-    <div
-      data-cid="div-aymX7X"
-      className="grid grid-cols-3 gap-x-10 gap-y-2.5"
-    >
-      {categries.map((category) => (
-        <CategoryCard
-          data-cid="CategoryCard-4ApOtE"
-          key={category.name}
-          slots={{ icon: category.icon }}
-          cateogry={category.name}
-        />
-      ))}
-    </div>
-  );
-}
+import CategoryCards from './category-cards';
 
 async function CountCards() {
-  const data = await getItemsCount();
+  const data = await fetchItemsCount();
   return (
     <div
       data-cid="div-691SVA"
