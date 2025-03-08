@@ -1,18 +1,10 @@
-import LostCard from '@/domain/lost-item/components/lost-card';
 import { fetchItemsCount } from '@/domain/lost-item/queries/fetchItemsCount';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/shared/ui/carousel';
-import { MoveRightIcon } from 'lucide-react';
 
 import CategoryCards from './category-cards';
+import RecentCards from './recent-cards';
 
 async function CountCards() {
-  const data = await fetchItemsCount();
+  const { data } = await fetchItemsCount();
   return (
     <div
       data-cid="div-691SVA"
@@ -26,7 +18,7 @@ async function CountCards() {
           data-cid="p-WJ9ETQ"
           className="mb-2 text-4xl font-bold text-primary"
         >
-          {data.data.today.toLocaleString()}
+          {data.today.toLocaleString()}
         </p>
         <p
           data-cid="p-B4pETk"
@@ -44,7 +36,7 @@ async function CountCards() {
           data-cid="p-WJ9ETQ"
           className="mb-2 text-4xl font-bold text-primary"
         >
-          {data.data.total.toLocaleString()}
+          {data.total.toLocaleString()}
         </p>
         <p
           data-cid="p-B4pETk"
@@ -84,64 +76,7 @@ export default function MainpageContent() {
             </p>
             <CategoryCards data-cid="CategoryCards-2M4vRt" />
           </div>
-          <div
-            data-cid="div-gfl5wS"
-            className="flex flex-col gap-6"
-          >
-            <div
-              data-cid="div-aZhqrg"
-              className="flex items-center justify-between"
-            >
-              <p
-                data-cid="p-1P8CbO"
-                className="text-xl font-extrabold text-foreground"
-              >
-                새로 등록된 관심 분실물
-              </p>
-              <div
-                data-cid="div-bN99AZ"
-                className="flex cursor-pointer items-center gap-1"
-              >
-                <p
-                  data-cid="p-JrF39w"
-                  className="text-base text-muted-foreground"
-                >
-                  전체보기
-                </p>
-                <MoveRightIcon
-                  data-cid="MoveRightIcon-3oZVgO"
-                  size={16}
-                  color="hsl(var(--muted-foreground))"
-                />
-              </div>
-            </div>
-            <Carousel
-              data-cid="Carousel-YioP14"
-              className="w-full"
-            >
-              <CarouselContent data-cid="CarouselContent-gI4pdQ">
-                {Array.from({ length: 9 }).map((_, index) => (
-                  <CarouselItem
-                    data-cid="CarouselItem-sbMufa"
-                    key={index}
-                    className="basis-1/3"
-                  >
-                    <LostCard
-                      data-cid="LostCard-glOAzq"
-                      id={index}
-                      name="습득물 1"
-                      image={'https://sitem.ssgcdn.com/26/64/85/item/1000277856426_i1_750.jpg'}
-                      category={'지갑'}
-                      location={'부산광역시'}
-                      acquisitionDate={'2024. 12. 31'}
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious data-cid="CarouselPrevious-3Mty6g" />
-              <CarouselNext data-cid="CarouselNext-igW4kh" />
-            </Carousel>
-          </div>
+          <RecentCards data-cid="RecentCards-1Z6Z9w" />
         </div>
       </div>
     </div>

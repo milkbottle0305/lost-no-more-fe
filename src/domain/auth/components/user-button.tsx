@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from 'react';
-
 import { usePathname, useRouter } from 'next/navigation';
 
 import LoginPopup from '@/domain/auth/components/login-popup';
 import { useAuth } from '@/domain/auth/hooks/useAuth';
 import { UserIcon } from 'lucide-react';
 
+import useLoginPopupStore from '../stores/login-popup-store';
+
 export default function UserButton() {
   const router = useRouter();
   const pathname = usePathname();
   const { isLoggedIn } = useAuth();
-  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
+  const { isOpen, openPopup, closePopup } = useLoginPopupStore();
 
   const handleClick = () => {
     if (pathname === '/mypage') {
@@ -22,7 +22,7 @@ export default function UserButton() {
     if (isLoggedIn) {
       router.push('/mypage');
     } else {
-      setIsLoginPopupOpen(true);
+      openPopup();
     }
   };
 
@@ -42,8 +42,8 @@ export default function UserButton() {
 
       <LoginPopup
         data-cid="LoginPopup-EKnj5g"
-        open={isLoginPopupOpen}
-        onClose={() => setIsLoginPopupOpen(false)}
+        open={isOpen}
+        onClose={closePopup}
       />
     </>
   );

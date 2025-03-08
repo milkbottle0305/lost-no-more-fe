@@ -19,5 +19,6 @@ export const ApiEndpoint = {
   NOTIFICATIONS: 'alarm',
 
   ITEMS_COUNT: 'items/count',
+  ITEMS_RECENT: 'items/recent',
   ITEMS_SEARCH_MAP: 'items/search/map',
 } as const;

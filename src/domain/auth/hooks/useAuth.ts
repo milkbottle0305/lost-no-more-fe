@@ -29,7 +29,6 @@ export function useAuth() {
 
     const token = localStorage.getItem('accessToken');
     const provider = localStorage.getItem('auth_provider');
-
     const isExpired = isTokenExpired(token);
 
     if (token && isExpired) {
@@ -70,7 +69,7 @@ export function useAuth() {
     };
   };
 
-  const { data: auth = getAuthState() } = useQuery({
+  const { data: auth = getAuthState(), isLoading: isLoadingAuth } = useQuery({
     queryKey: ['auth'],
     queryFn: getAuthState,
     staleTime: Infinity,
@@ -238,6 +237,7 @@ export function useAuth() {
       provider: null,
       getOAuthUrl: authApi.getOAuthUrl,
       getToken: tokenMutation.mutate,
+      isLoadingAuth: true,
       isLoading: true,
       error: null,
       logout,
@@ -250,6 +250,7 @@ export function useAuth() {
     ...auth,
     getOAuthUrl: authApi.getOAuthUrl,
     getToken: tokenMutation.mutate,
+    isLoadingAuth,
     isLoading: tokenMutation.isPending || logoutMutation.isPending || withdrawMutation.isPending,
     error: tokenMutation.error || logoutMutation.error || withdrawMutation.error,
     logout,

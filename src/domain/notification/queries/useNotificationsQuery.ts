@@ -5,6 +5,6 @@ import { type NotificationsResponse, fetchNotificaitons } from './fetchNotificat
 export function useNotificationQuery() {
   return useQuery<NotificationsResponse>({
     queryKey: ['notification'],
-    queryFn: () => fetchNotificaitons(),
+    queryFn: fetchNotificaitons,
   });
 }
