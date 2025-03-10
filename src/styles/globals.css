@@ -32,6 +32,7 @@ body {
     --chart-3: 0 0% 92%;
     --chart-4: 0 0% 95%;
     --chart-5: 227 101% 63%;
+    --notification-new: 227 100% 96%;
     --radius: 0.5rem;
   }
 
@@ -60,6 +61,7 @@ body {
     --chart-3: 227 3% 8%;
     --chart-4: 227 3% 11%;
     --chart-5: 227 101% 63%;
+    --notification-new: 227 100% 96%;
   }
 }
 
