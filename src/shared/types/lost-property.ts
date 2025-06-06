@@ -23,6 +23,31 @@ export const LostLocations = [
 
 export type LostLocation = (typeof LostLocations)[number];
 
+export const LostLocationsForKeywords = [
+  '전체',
+  '서울',
+  '강원',
+  '경기',
+  '경남',
+  '경북',
+  '광주',
+  '대구',
+  '대전',
+  '부산',
+  '울산',
+  '인천',
+  '전남',
+  '전북특별자치도',
+  '충남',
+  '충북',
+  '제주특별자치도',
+  '세종특별자치시',
+  '해외',
+  '기타',
+] as const;
+
+export type LostLocationForKeyword = (typeof LostLocationsForKeywords)[number];
+
 export const LostCategories = [
   '전체',
   '가방',

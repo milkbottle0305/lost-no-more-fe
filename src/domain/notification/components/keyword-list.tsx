@@ -1,12 +1,13 @@
 import React from 'react';
 
+import type { KeywordItem } from '@/domain/notification/types/keyword';
 import { Button } from '@/shared/ui/button';
 import { SlidersHorizontal, Trash2 } from 'lucide-react';
 
 interface KeywordListProps {
-  keywords: string[];
-  removeKeyword: (keyword: string) => void;
-  onSettingsClick: (keyword: string) => void;
+  keywords: KeywordItem[];
+  removeKeyword: (keywordId: string) => void;
+  onSettingsClick: (keyword: KeywordItem) => void;
 }
 
 export default function KeywordList({
@@ -19,17 +20,17 @@ export default function KeywordList({
       data-cid="ul-opB9gt"
       className="max-h-64 overflow-y-auto"
     >
-      {keywords.map((kw) => (
+      {keywords.map((keyword) => (
         <li
           data-cid="li-uYkrgc"
-          key={kw}
+          key={keyword.id}
           className="mb-2 flex h-12 items-center justify-between rounded-lg bg-secondary p-2"
         >
           <span
             data-cid="span-zCaCkt"
             className="px-2 font-semibold text-secondary-foreground"
           >
-            {kw}
+            {keyword.text}
           </span>
           <div
             data-cid="div-vrHbMn"
@@ -38,7 +39,7 @@ export default function KeywordList({
             <Button
               data-cid="Button-SWGxsF"
               variant="ghost"
-              onClick={() => onSettingsClick(kw)}
+              onClick={() => onSettingsClick(keyword)}
             >
               <SlidersHorizontal
                 data-cid="SlidersHorizontal-goeIgC"
@@ -50,7 +51,7 @@ export default function KeywordList({
             <Button
               data-cid="Button-p3qOFK"
               variant="ghost"
-              onClick={() => removeKeyword(kw)}
+              onClick={() => removeKeyword(keyword.id)}
             >
               <Trash2
                 data-cid="Trash2-3lCa0y"

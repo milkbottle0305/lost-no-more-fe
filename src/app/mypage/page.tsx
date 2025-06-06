@@ -45,7 +45,7 @@ export default function MyPage() {
       >
         <div
           data-cid="div-CuMShQ"
-          className="w-64 shrink-0"
+          className="w-64 shrink-0 aria-hidden={false}"
         >
           <SideNavigation
             data-cid="SideNavigation-ANQqHh"

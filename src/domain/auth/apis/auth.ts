@@ -1,6 +1,6 @@
 import ApiClient from '@/shared/lib/api-client';
 import type { Provider } from '@/shared/types/api-endpoint';
-import { ApiEndpoint } from '@/shared/types/api-endpoint';
+import { ApiEndpoint, getAuthHeaders } from '@/shared/types/api-endpoint';
 import type { Response } from '@/shared/types/response';
 import { isTokenExpired } from '@/shared/utils/jwt-utils';
 
@@ -50,7 +50,7 @@ async function authenticatedRequest<T>(
 
 export const authApi = {
   getOAuthUrl: async (provider: Provider, token?: string, state?: string) => {
-    const headers = getHeaders(token);
+    const headers = getAuthHeaders(token);
     let url = ApiEndpoint.OAUTH_URL(provider);
 
     if (state) {
@@ -79,7 +79,7 @@ export const authApi = {
       };
     }
 
-    const headers = getHeaders(options?.token);
+    const headers = getAuthHeaders(options?.token);
 
     return ApiClient.post(ApiEndpoint.OAUTH_TOKEN(provider, code), {
       headers,

@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
+import { KeywordListContainer } from '@/app/mypage/_containers/keyword-list-container';
 import KeywordInput from '@/domain/notification/components/keyword-input';
-import KeywordList from '@/domain/notification/components/keyword-list';
 import KeywordSettings from '@/domain/notification/components/keyword-settings';
+import { useKeywordManagement } from '@/domain/notification/hooks/useKeyword';
+import { useNotificationSettings } from '@/domain/notification/hooks/useNotificationSettings';
 import CustomSwitch from '@/shared/components/custom-switch';
 import { Button } from '@/shared/ui/button';
 import {
@@ -15,38 +17,22 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shared/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 
 export const NotificationsSection = () => {
-  const [keywords, setKeywords] = useState<string[]>([]);
-  const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
-  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
-  const [emailNotification, setEmailNotification] = useState(false);
+  const {
+    keywords,
+    selectedKeyword,
+    isSettingsVisible,
+    isLoading,
+    addKeyword,
+    removeKeyword,
+    handleSettingsClick,
+    handleBackClick,
+    updateKeyword,
+  } = useKeywordManagement();
 
-  const addKeyword = (keyword: string) => {
-    if (keyword && !keywords.includes(keyword)) {
-      setKeywords([...keywords, keyword]);
-    }
-  };
-
-  const removeKeyword = (removeKeyword: string) => {
-    setKeywords(keywords.filter((kw) => kw !== removeKeyword));
-  };
-
-  const handleSettingsClick = (keyword: string) => {
-    setSelectedKeyword(keyword);
-    setIsSettingsVisible(true);
-  };
-
-  const handleBackClick = () => {
-    setIsSettingsVisible(false);
-    setSelectedKeyword(null);
-  };
-
-  const updateKeyword = (oldKeyword: string, newKeyword: string) => {
-    setKeywords(keywords.map((kw) => (kw === oldKeyword ? newKeyword : kw)));
-    setSelectedKeyword(newKeyword);
-  };
+  const { emailNotification, setEmailNotification } = useNotificationSettings();
 
   return (
     <Card data-cid="Card-cL27dV">
@@ -110,15 +96,18 @@ export const NotificationsSection = () => {
                     분실물 알림을 받을 키워드를 설정합니다.
                   </CardDescription>
                 </CardHeader>
+
                 <KeywordInput
                   data-cid="KeywordInput-MFRnLi"
                   addKeyword={addKeyword}
                 />
-                <KeywordList
-                  data-cid="KeywordList-mjaArg"
+
+                <KeywordListContainer
+                  data-cid="KeywordListDataContainer-c4fqbT"
+                  isLoading={isLoading}
                   keywords={keywords}
                   removeKeyword={removeKeyword}
-                  onSettingsClick={handleSettingsClick}
+                  handleSettingsClick={handleSettingsClick}
                 />
               </div>
               <div
