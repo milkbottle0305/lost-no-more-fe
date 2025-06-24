@@ -1,40 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense } from 'react';
 
-import { useSearchParams } from 'next/navigation';
+import CallbackPageInner from '@/app/oauth/callback/kakao/CallbackPageInner';
 
 export default function CallbackPage() {
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const code = searchParams.get('code');
-    const error = searchParams.get('error');
-
-    if (window.opener) {
-      if (error) {
-        window.opener.postMessage(
-          {
-            type: 'OAUTH_CALLBACK',
-            error,
-          },
-          window.location.origin
-        );
-      } else if (code) {
-        window.opener.postMessage(
-          {
-            type: 'OAUTH_CALLBACK',
-            code,
-          },
-          window.location.origin
-        );
-      }
-
-      setTimeout(() => {
-        window.close();
-      }, 100);
-    }
-  }, [searchParams]);
-
-  return <div data-cid="div-dW3PBD">로그인 처리중...</div>;
+  return (
+    <Suspense data-cid="Suspense-hN2CNM">
+      <CallbackPageInner data-cid="CallbackPageInner-Kfi32y" />
+    </Suspense>
+  );
 }
