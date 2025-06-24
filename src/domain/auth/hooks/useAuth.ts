@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import type { Provider } from '@/shared/types/api-endpoint';
 import { isTokenExpired } from '@/shared/utils/jwt-utils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -23,12 +22,10 @@ export function useAuth() {
       return {
         isLoggedIn: false,
         accessToken: null,
-        provider: null,
       };
     }
 
     const token = localStorage.getItem('accessToken');
-    const provider = localStorage.getItem('auth_provider');
     const isExpired = isTokenExpired(token);
 
     if (token && isExpired) {
@@ -40,22 +37,18 @@ export function useAuth() {
             queryClient.invalidateQueries({ queryKey: ['auth'] });
           } else {
             localStorage.removeItem('accessToken');
-            localStorage.removeItem('auth_provider');
             queryClient.setQueryData(['auth'], {
               isLoggedIn: false,
               accessToken: null,
-              provider: null,
             });
             router.push('/');
           }
         })
         .catch(() => {
           localStorage.removeItem('accessToken');
-          localStorage.removeItem('auth_provider');
           queryClient.setQueryData(['auth'], {
             isLoggedIn: false,
             accessToken: null,
-            provider: null,
           });
           router.push('/');
         });
@@ -64,7 +57,6 @@ export function useAuth() {
     return {
       isLoggedIn: !!token,
       accessToken: token,
-      provider: provider as Provider,
       isTokenExpired: isExpired,
     };
   };
@@ -77,24 +69,20 @@ export function useAuth() {
 
   const tokenMutation = useMutation({
     mutationFn: ({
-      provider,
       code,
       options,
     }: {
-      provider: Provider;
       code: string;
-      options?: { token?: string; state?: string };
+      options?: { token?: string };
     }) => {
-      return authApi.getToken(provider, code, options);
+      return authApi.getToken(code, options);
     },
-    onSuccess: (response, variables) => {
+    onSuccess: (response) => {
       if (response.isSuccess && response.data) {
         localStorage.setItem('accessToken', response.data);
-        localStorage.setItem('auth_provider', variables.provider);
         queryClient.setQueryData(['auth'], {
           isLoggedIn: true,
           accessToken: response.data,
-          provider: variables.provider,
           isTokenExpired: false,
         });
       }
@@ -109,11 +97,9 @@ export function useAuth() {
     },
     onSuccess: () => {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('auth_provider');
       queryClient.setQueryData(['auth'], {
         isLoggedIn: false,
         accessToken: null,
-        provider: null,
         isTokenExpired: true,
       });
       queryClient.invalidateQueries();
@@ -121,11 +107,9 @@ export function useAuth() {
     onError: (error) => {
       console.error('Logout error:', error);
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('auth_provider');
       queryClient.setQueryData(['auth'], {
         isLoggedIn: false,
         accessToken: null,
-        provider: null,
         isTokenExpired: true,
       });
     },
@@ -144,7 +128,7 @@ export function useAuth() {
   };
 
   const withdrawMutation = useMutation({
-    mutationFn: async ({ provider, code }: { provider: Provider; code?: string }) => {
+    mutationFn: async () => {
       const token = localStorage.getItem('accessToken');
       if (!token) {
         throw new Error('액세스 토큰이 없습니다.');
@@ -156,19 +140,17 @@ export function useAuth() {
           throw new Error('토큰 재발급에 실패했습니다. 다시 로그인해주세요.');
         }
         localStorage.setItem('accessToken', reissueResponse.data);
-        return await authApi.withdraw(provider, reissueResponse.data, code);
+        return await authApi.withdraw(reissueResponse.data);
       }
 
-      return await authApi.withdraw(provider, token, code);
+      return await authApi.withdraw(token);
     },
     onSuccess: () => {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('auth_provider');
 
       queryClient.setQueryData(['auth'], {
         isLoggedIn: false,
         accessToken: null,
-        provider: null,
         isTokenExpired: true,
       });
 
@@ -179,62 +161,35 @@ export function useAuth() {
     },
   });
 
-  const withdraw = (provider: Provider, code?: string, callback?: () => void) => {
-    if (provider === 'google' && !code) {
-      authApi.getOAuthUrl(provider, undefined, 'withdrawal').then((response) => {
-        if (response.isSuccess && response.data) {
-          window.open(response.data, 'googleAuth', 'width=500,height=600');
-
-          const handleMessage = (event: MessageEvent) => {
-            if (
-              event.origin === window.location.origin &&
-              event.data.type === 'GOOGLE_AUTH_CALLBACK' &&
-              event.data.code
-            ) {
-              window.removeEventListener('message', handleMessage);
-
-              withdraw(provider, event.data.code, callback);
-            }
-          };
-
-          window.addEventListener('message', handleMessage);
+  const withdraw = (callback?: () => void) => {
+    withdrawMutation.mutate(undefined, {
+      onSuccess: () => {
+        if (callback) {
+          callback();
+        } else {
+          router.push('/');
         }
-      });
+      },
+      onError: (error: any) => {
+        console.error('회원탈퇴 오류:', error);
 
-      return;
-    }
-    withdrawMutation.mutate(
-      { provider, code },
-      {
-        onSuccess: () => {
-          if (callback) {
-            callback();
-          } else {
-            router.push('/');
-          }
-        },
-        onError: (error: any) => {
-          console.error('회원탈퇴 오류:', error);
+        const errorMessage = error?.message || '회원탈퇴 중 오류가 발생했습니다.';
 
-          const errorMessage = error?.message || '회원탈퇴 중 오류가 발생했습니다.';
+        if (errorMessage.includes('필수 쿠키가 누락되었습니다.')) {
+          alert('로그인 정보가 만료되었습니다. 다시 로그인해주세요.');
 
-          if (errorMessage.includes('필수 쿠키가 누락되었습니다.')) {
-            alert('로그인 정보가 만료되었습니다. 다시 로그인해주세요.');
-
-            router.push('/');
-          } else {
-            alert(`회원탈퇴 실패: ${errorMessage}`);
-          }
-        },
-      }
-    );
+          router.push('/');
+        } else {
+          alert(`회원탈퇴 실패: ${errorMessage}`);
+        }
+      },
+    });
   };
 
   if (!isHydrated) {
     return {
       isLoggedIn: false,
       accessToken: null,
-      provider: null,
       getOAuthUrl: authApi.getOAuthUrl,
       getToken: tokenMutation.mutate,
       isLoadingAuth: true,

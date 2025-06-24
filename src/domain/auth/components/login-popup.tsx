@@ -55,13 +55,7 @@ export default function LoginPopup({ open, onClose, onLoginSuccess }: LoginPopup
             >
               <SocialLoginButton
                 data-cid="SocialLoginButton-1BSzuD"
-                provider="kakao"
-                onLogin={() => handleLogin('kakao')}
-              />
-              <SocialLoginButton
-                data-cid="SocialLoginButton-j95p5W"
-                provider="google"
-                onLogin={() => handleLogin('google')}
+                onLogin={handleLogin}
               />
             </div>
 

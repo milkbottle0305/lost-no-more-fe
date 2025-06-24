@@ -3,17 +3,15 @@
  * @description 키 - 별칭, 값 - api endpoint
  * @example
  * {
- *  AUTH_GOOGLE_CODE: 'auth/oauth/google/code',
- * AUTH_GOOGLE_LOGIN: 'auth/oauth/google/login',
+ *  AUTH_CODE: 'auth/code',
+ *  AUTH_LOGIN: 'auth/login',
  * }
  */
-export type Provider = 'kakao' | 'google';
-
 export const ApiEndpoint = {
-  OAUTH_URL: (provider: Provider) => `auth/oauth/${provider}/code`,
-  OAUTH_TOKEN: (provider: Provider, code: string) => `auth/oauth/${provider}/login?code=${code}`,
+  OAUTH_URL: 'auth/code',
+  OAUTH_TOKEN: (code: string) => `auth/login?code=${code}`,
   LOGOUT: 'auth/logout',
-  WITHDRAW: (provider: Provider) => `auth/${provider}/withdraw`,
+  WITHDRAW: 'auth/withdraw',
   REISSUE: 'auth/reissue',
 
   KEYWORD: {
