@@ -15,7 +15,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@radix-ui/react-select';
+} from '@/shared/ui/select';
 
 export const LocationsSection = () => {
   return (

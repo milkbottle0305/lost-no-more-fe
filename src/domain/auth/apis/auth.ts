@@ -1,6 +1,5 @@
 import ApiClient from '@/shared/lib/api-client';
-import type { Provider } from '@/shared/types/api-endpoint';
-import { ApiEndpoint } from '@/shared/types/api-endpoint';
+import { ApiEndpoint, getAuthHeaders } from '@/shared/types/api-endpoint';
 import type { Response } from '@/shared/types/response';
 import { isTokenExpired } from '@/shared/utils/jwt-utils';
 
@@ -49,39 +48,15 @@ async function authenticatedRequest<T>(
 }
 
 export const authApi = {
-  getOAuthUrl: async (provider: Provider, token?: string, state?: string) => {
-    const headers = getHeaders(token);
-    let url = ApiEndpoint.OAUTH_URL(provider);
-
-    if (state) {
-      url = `${url}?state=${state}`;
-    }
-
-    return ApiClient.get(url, { headers }).json<Response<OAuthUrlData>>();
+  getOAuthUrl: async (token?: string) => {
+    const headers = getAuthHeaders(token);
+    return ApiClient.get(ApiEndpoint.OAUTH_URL, { headers }).json<Response<OAuthUrlData>>();
   },
 
-  getToken: async (
-    provider: Provider,
-    code: string,
-    options?: { token?: string; state?: string }
-  ) => {
-    if (
-      options?.state === 'withdrawal' ||
-      localStorage.getItem('withdraw_in_progress') === 'true'
-    ) {
-      return {
-        isSuccess: false,
-        data: null,
-        error: {
-          code: 409,
-          message: '회원탈퇴 진행 중입니다.',
-        },
-      };
-    }
+  getToken: async (code: string, options?: { token?: string }) => {
+    const headers = getAuthHeaders(options?.token);
 
-    const headers = getHeaders(options?.token);
-
-    return ApiClient.post(ApiEndpoint.OAUTH_TOKEN(provider, code), {
+    return ApiClient.post(ApiEndpoint.OAUTH_TOKEN(code), {
       headers,
     }).json<Response<TokenData>>();
   },
@@ -104,15 +79,10 @@ export const authApi = {
     }
   },
 
-  withdraw: async (provider: Provider, token: string, code?: string) => {
-    const endpoint =
-      code && provider === 'google'
-        ? `${ApiEndpoint.WITHDRAW(provider)}?code=${code}`
-        : ApiEndpoint.WITHDRAW(provider);
-
+  withdraw: async (token: string) => {
     return authenticatedRequest((currentToken) => {
       const headers = getHeaders(currentToken);
-      return ApiClient.delete(endpoint, {
+      return ApiClient.delete(ApiEndpoint.WITHDRAW, {
         headers,
       }).json<Response<null>>();
     }, token);

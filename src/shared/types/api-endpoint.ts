@@ -3,18 +3,21 @@
  * @description 키 - 별칭, 값 - api endpoint
  * @example
  * {
- *  AUTH_GOOGLE_CODE: 'auth/oauth/google/code',
- * AUTH_GOOGLE_LOGIN: 'auth/oauth/google/login',
+ *  AUTH_CODE: 'auth/code',
+ *  AUTH_LOGIN: 'auth/login',
  * }
  */
-export type Provider = 'kakao' | 'google';
-
 export const ApiEndpoint = {
-  OAUTH_URL: (provider: Provider) => `auth/oauth/${provider}/code`,
-  OAUTH_TOKEN: (provider: Provider, code: string) => `auth/oauth/${provider}/login?code=${code}`,
+  OAUTH_URL: 'auth/code',
+  OAUTH_TOKEN: (code: string) => `auth/login?code=${code}`,
   LOGOUT: 'auth/logout',
-  WITHDRAW: (provider: Provider) => `auth/${provider}/withdraw`,
+  WITHDRAW: 'auth/withdraw',
   REISSUE: 'auth/reissue',
+
+  KEYWORD: {
+    SUBSCRIBE: 'subscribe',
+    SUBSCRIBE_DETAIL: (id: string) => `subscribe/${id}`,
+  },
 
   NOTIFICATIONS: 'alarm',
 
@@ -22,3 +25,15 @@ export const ApiEndpoint = {
   ITEMS_RECENT: 'items/recent',
   ITEMS_SEARCH_MAP: 'items/search/map',
 } as const;
+
+export const getAuthHeaders = (token?: string | null): Record<string, string> => {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  return headers;
+};

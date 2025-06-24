@@ -2,78 +2,19 @@
 
 import React, { useState } from 'react';
 
-import { MultiSelect } from '@/shared/components/multi-select';
-import type { LostCategory, LostLocation } from '@/shared/types/lost-property';
-import { LostCategories, LostLocations } from '@/shared/types/lost-property';
+import { GenericSelect } from '@/shared/components/generic-select';
+import type { KeywordItem } from '@/domain/notification/types/keyword';
+import type { LostCategory, LostLocationForKeyword } from '@/shared/types/lost-property';
+import { LostCategories, LostLocationsForKeywords } from '@/shared/types/lost-property';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
-import {
-  Banknote,
-  Book,
-  Box,
-  Briefcase,
-  Car,
-  ChevronLeft,
-  CreditCard,
-  DollarSign,
-  Dumbbell,
-  FileText,
-  Gem,
-  Monitor,
-  Music,
-  Package,
-  Phone,
-  ScrollText,
-  Shirt,
-  ShoppingBag,
-  Smartphone,
-  Wallet,
-  X,
-} from 'lucide-react';
-
-const categoryIcons = {
-  가방: Briefcase,
-  귀금속: Gem,
-  도서용품: Book,
-  무주물: Package,
-  서류: FileText,
-  산업용품: Package,
-  쇼핑백: ShoppingBag,
-  스포츠용품: Dumbbell,
-  악기: Music,
-  유가증권: DollarSign,
-  의류: Shirt,
-  자동차: Car,
-  전자기기: Smartphone,
-  지갑: Wallet,
-  증명서: ScrollText,
-  컴퓨터: Monitor,
-  카드: CreditCard,
-  현금: Banknote,
-  휴대폰: Phone,
-  기타물품: Box,
-  유류품: Box,
-};
-
-const CategoriesList = LostCategories.filter((category) => category !== '전체').map((category) => ({
-  value: category,
-  label: category,
-  icon: categoryIcons[category],
-}));
+import { ChevronLeft, X } from 'lucide-react';
 
 interface KeywordSettingsProps {
-  keyword: string;
+  keyword: KeywordItem;
   onBackClick: () => void;
-  updateKeyword: (oldKeyword: string, newKeyword: string) => void;
+  updateKeyword: (keywordId: string, updatedKeyword: Omit<KeywordItem, 'id'>) => void;
 }
 
 export default function KeywordSettings({
@@ -81,22 +22,32 @@ export default function KeywordSettings({
   onBackClick,
   updateKeyword,
 }: KeywordSettingsProps) {
-  const [keywordInput, setKeywordInput] = useState(keyword);
-  const [selectedCategories, setSelectedCategories] = useState<LostCategory[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<LostLocation>('전체');
+  const [keywordText, setKeywordText] = useState(keyword.text);
+  const [selectedCategory, setSelectedCategory] = useState<LostCategory>(
+    keyword.category || '전체'
+  );
+  const [selectedLocation, setSelectedLocation] = useState<LostLocationForKeyword>(
+    keyword.location || '전체'
+  );
   const [error, setError] = useState<string>('');
 
   const handleClearInput = () => {
-    setKeywordInput('');
+    setKeywordText('');
     setError('');
   };
 
   const handleUpdateKeyword = () => {
-    if (!keywordInput.trim()) {
+    if (!keywordText.trim()) {
       setError('키워드를 입력해주세요');
       return;
     }
-    updateKeyword(keyword, keywordInput);
+
+    updateKeyword(keyword.id, {
+      text: keywordText,
+      category: selectedCategory,
+      location: selectedLocation,
+    });
+
     onBackClick();
   };
 
@@ -149,16 +100,16 @@ export default function KeywordSettings({
             <Input
               data-cid="Input-4TjID6"
               id="keyword"
-              value={keywordInput}
+              value={keywordText}
               onChange={(e) => {
-                setKeywordInput(e.target.value);
+                setKeywordText(e.target.value);
                 if (error) setError('');
               }}
               className={`w-full border-transparent bg-secondary pr-10 text-base font-semibold text-secondary-foreground ${
-                error ? 'border-red-500' : ''
+                error ? 'border-destructive' : ''
               }`}
             />
-            {keywordInput && (
+            {keywordText && (
               <Button
                 data-cid="Button-7PVCjI"
                 variant="ghost"
@@ -175,7 +126,7 @@ export default function KeywordSettings({
           {error && (
             <p
               data-cid="p-uo1byx"
-              className="text-sm text-red-500"
+              className="text-sm text-destructive"
             >
               {error}
             </p>
@@ -186,15 +137,14 @@ export default function KeywordSettings({
           data-cid="div-BRP89u"
           className="space-y-1"
         >
-          <Label data-cid="Label-gteKDa">카테고리 (중복 선택 가능)</Label>
-          <MultiSelect
-            data-cid="MultiSelect-IvwCZx"
-            options={CategoriesList}
-            onValueChange={(values: string[]) => setSelectedCategories(values as LostCategory[])}
-            defaultValue={selectedCategories}
-            placeholder="카테고리를 선택하세요."
-            variant="inverted"
-            maxCount={3}
+          <GenericSelect
+            data-cid="GenericSelect-SibZvc"
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+            options={[...LostCategories]}
+            width="w-60"
+            label="카테고리"
+            placeholder="카테고리를 선택하세요"
           />
         </div>
         {/* 지역 선택 */}
@@ -202,35 +152,15 @@ export default function KeywordSettings({
           data-cid="div-WtwYbE"
           className="space-y-2"
         >
-          <Label data-cid="Label-bwIB6C">지역</Label>
-          <Select
-            data-cid="Select-vPXXWS"
-            onValueChange={(value: string) => setSelectedLocation(value as LostLocation)}
+          <GenericSelect
+            data-cid="GenericSelect-EXfUuk"
             value={selectedLocation}
-          >
-            <SelectTrigger
-              data-cid="SelectTrigger-cPNMqJ"
-              className="w-60"
-            >
-              <SelectValue
-                data-cid="SelectValue-ZrQ2fG"
-                placeholder="지역을 선택하세요."
-              />
-            </SelectTrigger>
-            <SelectContent data-cid="SelectContent-w0AmLa">
-              <SelectGroup data-cid="SelectGroup-EvrfT8">
-                {LostLocations.map((loc) => (
-                  <SelectItem
-                    data-cid="SelectItem-a6XZ00"
-                    key={loc}
-                    value={loc}
-                  >
-                    {loc}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+            onChange={setSelectedLocation}
+            options={[...LostLocationsForKeywords]}
+            width="w-60"
+            label="지역"
+            placeholder="지역을 선택하세요"
+          />
         </div>
         <div
           data-cid="div-aJ5mhT"

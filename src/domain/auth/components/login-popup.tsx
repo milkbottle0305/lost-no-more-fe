@@ -29,19 +29,18 @@ export default function LoginPopup({ open, onClose, onLoginSuccess }: LoginPopup
         data-cid="DialogContent-xSnJhK"
         className="max-w-xl rounded-lg p-16"
       >
+        <DialogTitle
+          data-cid="DialogTitle-DXApVY"
+          className="text-center text-2xl font-bold"
+        >
+          로그인
+        </DialogTitle>
         {!isProcessing ? (
           <>
             <DialogHeader
               data-cid="DialogHeader-4XqRj7"
               className="mb-4"
             >
-              <DialogTitle
-                data-cid="DialogTitle-DXApVY"
-                className="text-center text-2xl font-bold"
-              >
-                로그인
-              </DialogTitle>
-
               <DialogDescription
                 data-cid="DialogDescription-UTbHBp"
                 className="text-center text-sm text-muted-foreground"
@@ -56,13 +55,7 @@ export default function LoginPopup({ open, onClose, onLoginSuccess }: LoginPopup
             >
               <SocialLoginButton
                 data-cid="SocialLoginButton-1BSzuD"
-                provider="kakao"
-                onLogin={() => handleLogin('kakao')}
-              />
-              <SocialLoginButton
-                data-cid="SocialLoginButton-j95p5W"
-                provider="google"
-                onLogin={() => handleLogin('google')}
+                onLogin={handleLogin}
               />
             </div>
 

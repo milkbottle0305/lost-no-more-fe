@@ -1,11 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
 import { useAuth } from '@/domain/auth/hooks/useAuth';
-import type { Provider } from '@/shared/types/api-endpoint';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -17,82 +16,16 @@ import {
   DialogTrigger,
 } from '@/shared/ui/dialog';
 
-interface WithdrawButtonProps {
-  authCode?: string;
-}
-
-export const WithdrawButton = ({ authCode }: WithdrawButtonProps) => {
+export const WithdrawButton = () => {
   const auth = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
-  const handleMessage = useCallback(
-    (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
-
-      const isWithdrawProcess = localStorage.getItem('withdraw_in_progress') === 'true';
-
-      if (
-        isWithdrawProcess &&
-        (event.data.type === 'GOOGLE_AUTH_CALLBACK' || event.data.type === 'OAUTH_CALLBACK') &&
-        event.data.code
-      ) {
-        localStorage.removeItem('withdraw_in_progress');
-
-        const storedProvider = localStorage.getItem('auth_provider') as Provider;
-        if (!storedProvider) {
-          console.error('인증 제공자 정보를 찾을 수 없습니다.');
-          return;
-        }
-
-        auth.withdraw(storedProvider, event.data.code, () => {
-          setIsOpen(false);
-          router.push('/');
-        });
-      }
-    },
-    [auth, router]
-  );
-
-  useEffect(() => {
-    window.addEventListener('message', handleMessage);
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  }, [handleMessage]);
-
   const handleWithdraw = async () => {
-    const storedProvider = auth.provider || (localStorage.getItem('auth_provider') as Provider);
-
-    if (!storedProvider) {
-      console.error('인증 제공자 정보가 없습니다. 로그인이 필요합니다.');
-      alert('로그인이 필요한 기능입니다.');
-      return;
-    }
-
-    if (storedProvider === 'google' && !authCode) {
-      try {
-        localStorage.setItem('withdraw_in_progress', 'true');
-
-        const response = await auth.getOAuthUrl(storedProvider, undefined, 'withdrawal');
-
-        if (response.isSuccess && response.data) {
-          window.open(
-            response.data,
-            'Google Authorization',
-            'width=500,height=700,left=400,top=200'
-          );
-        }
-      } catch (error) {
-        localStorage.removeItem('withdraw_in_progress');
-        console.error('Failed to get OAuth URL:', error);
-      }
-    } else {
-      auth.withdraw(storedProvider, authCode, () => {
-        setIsOpen(false);
-        router.push('/');
-      });
-    }
+    auth.withdraw(() => {
+      setIsOpen(false);
+      router.push('/');
+    });
   };
 
   return (
