@@ -3,10 +3,10 @@ import { useCallback } from 'react';
 import { cn } from '@/shared/utils/utils';
 import { NavigationIcon } from 'lucide-react';
 
-import { useLostNoMoreMapContext } from '../contexts/lost-no-more-map-context';
+import { useLostNoMoreMapStore } from '../stores/lost-no-more-map-store';
 
 export default function MoveMyPosButton({ className }: { className?: string }) {
-  const { setCenter } = useLostNoMoreMapContext();
+  const setCenter = useLostNoMoreMapStore((state) => state.setCenter);
   const handleClick = useCallback(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;

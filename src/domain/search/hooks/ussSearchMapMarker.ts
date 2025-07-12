@@ -37,6 +37,6 @@ export function useSearchMapMarker() {
 
   return {
     data: data?.data.lostItems ?? [],
-    isFetching,
+    isFetching: enabled ? isFetching : true,
   };
 }

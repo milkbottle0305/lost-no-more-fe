@@ -15,7 +15,7 @@ interface ListViewProps<T> {
   renderItem: (item: T) => React.ReactNode;
   gap: number;
   isFetching?: boolean;
-  loadMore?: () => Promise<void>;
+  loadMore?: () => Promise<void> | void;
   isInfinite?: boolean;
   renderEmpty?: () => React.ReactNode;
 }
