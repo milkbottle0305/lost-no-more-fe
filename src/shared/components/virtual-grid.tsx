@@ -103,7 +103,21 @@ export function VirtualGrid<T>({
                   gridTemplateColumns: `repeat(${columns}, 1fr)`,
                 }}
               >
-                {rowItems.map((item) => renderItem(item))}
+                {rowItems.map((item, itemIndex) => {
+                  const hasId = typeof item === 'object' && item !== null && 'id' in item;
+                  const itemKey = hasId
+                    ? `item-${(item as { id: string | number }).id}`
+                    : `${rowIndex}-${itemIndex}`;
+
+                  return (
+                    <div
+                      key={itemKey}
+                      data-cid={`${dataCid}-item-${itemKey}`}
+                    >
+                      {renderItem(item)}
+                    </div>
+                  );
+                })}
               </div>
             );
           })}

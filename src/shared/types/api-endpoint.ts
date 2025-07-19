@@ -19,6 +19,8 @@ export const ApiEndpoint = {
     SUBSCRIBE_DETAIL: (id: string) => `subscribe/${id}`,
   },
 
+  SUBSCRIBE_LIST: 'subscribe/list',
+
   NOTIFICATIONS: 'alarm',
 
   ITEMS_COUNT: 'items/count',

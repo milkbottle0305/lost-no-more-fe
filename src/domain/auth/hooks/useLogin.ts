@@ -10,8 +10,6 @@ export function useLogin(onLoginSuccess?: () => void, onClose?: () => void) {
 
   const handleMessage = useCallback(
     async (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
-
       if (event.data.type === 'OAUTH_CALLBACK' && event.data.code) {
         try {
           await getToken({ code: event.data.code });

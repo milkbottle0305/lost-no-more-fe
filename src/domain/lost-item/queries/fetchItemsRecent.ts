@@ -1,18 +1,12 @@
 import ApiClient from '@/shared/lib/api-client';
 import { ApiEndpoint } from '@/shared/types/api-endpoint';
+import type { LostItem } from '@/shared/types/lost-item';
 import type { Response } from '@/shared/types/response';
 
 const ITEMS_COUNT_REVALIDATE_MS = 60;
 
 interface ItemsRecentData {
-  recentItems: {
-    lostItemId: number;
-    name: string;
-    date: string;
-    location: string;
-    category: string;
-    imageUrl: string;
-  }[];
+  recentItems: LostItem[];
 }
 
 export type ItemsRecentResponse = Response<ItemsRecentData>;

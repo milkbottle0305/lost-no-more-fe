@@ -4,23 +4,28 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import LostItemsGrid from '@/domain/lost-item/components/lost-item-grid';
 import KeywordSelect from '@/domain/lost-item/components/lost-keyword-select';
-import type { KeywordType, LostItem } from '@/domain/lost-item/mocks/data';
-import { fetchDummyData } from '@/domain/lost-item/mocks/data';
+import { useSubscribeListQuery } from '@/domain/lost-item/queries/useSubscribeListQuery';
+import { useKeywords } from '@/domain/notification/hooks/useKeywordQuery';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
-const INITIAL_ITEMS_COUNT = 20;
-const ITEMS_PER_LOAD = 20;
+// 키워드 타입 정의
+type KeywordType = 'all' | string;
+
 const CARD_HEIGHT = 256;
 const GRID_GAP = 32;
 const COLUMNS = 4;
 
 export function LostItemsSection() {
   const [keyword, setKeyword] = useState<KeywordType>('all');
-  const [items, setItems] = useState<LostItem[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+
+  const { keywords, isLoading: keywordsLoading } = useKeywords();
+
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, refetch } =
+    useSubscribeListQuery({ keyword });
+
+  const items = data?.pages.flatMap((page) => page.items) ?? [];
+  const loading = isLoading || isFetchingNextPage;
 
   const parentRef = useRef<HTMLDivElement>(null);
 
@@ -32,42 +37,19 @@ export function LostItemsSection() {
   });
 
   const handleLoadMore = useCallback(() => {
-    if (loading || !hasMore) return;
-    setPage((prev) => prev + 1);
-  }, [loading, hasMore]);
-
-  const fetchItems = useCallback(async () => {
-    try {
-      setLoading(true);
-      const limit = page === 1 ? INITIAL_ITEMS_COUNT : ITEMS_PER_LOAD;
-      const data = await fetchDummyData(keyword, page, limit);
-
-      setItems((prevItems) => {
-        if (page === 1) return data.items;
-        return [...prevItems, ...data.items];
-      });
-
-      setHasMore(data.hasMore);
-    } finally {
-      setLoading(false);
-    }
-  }, [keyword, page]);
+    if (loading || !hasNextPage) return;
+    fetchNextPage();
+  }, [loading, hasNextPage, fetchNextPage]);
 
   const handleKeywordChange = (value: KeywordType) => {
     setKeyword(value);
   };
 
   useEffect(() => {
-    setItems([]);
-    setPage(1);
-    setHasMore(true);
-  }, [keyword]);
-
-  useEffect(() => {
     if (keyword) {
-      fetchItems();
+      refetch();
     }
-  }, [page, keyword, fetchItems]);
+  }, [keyword, refetch]);
 
   return (
     <Card
@@ -96,6 +78,8 @@ export function LostItemsSection() {
           data-cid="KeywordSelect-uab2EA"
           keyword={keyword}
           onKeywordChange={handleKeywordChange}
+          keywords={keywords}
+          isLoading={keywordsLoading}
         />
         <div
           data-cid="div-VdaOTc"

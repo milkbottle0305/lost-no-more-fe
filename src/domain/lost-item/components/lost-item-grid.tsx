@@ -1,8 +1,8 @@
 import React from 'react';
 
-import type { LostItem } from '@/domain/lost-item/mocks/data';
 import LoadingSpinner from '@/shared/components/loading-spinner';
 import { VirtualGrid } from '@/shared/components/virtual-grid';
+import type { LostItem } from '@/shared/types/lost-item';
 import type { Virtualizer } from '@tanstack/react-virtual';
 
 import LostCard from './lost-card';
@@ -29,17 +29,17 @@ export default function LostItemsGrid({
 }: LostItemsGridProps) {
   const renderLostItem = (item: LostItem) => (
     <div
-      data-cid={`${dataCid}-item-${item.id}`}
-      key={item.id}
+      data-cid={`${dataCid}-item-${item.lostItemId}`}
+      key={item.lostItemId}
       className="h-64 w-full"
     >
       <LostCard
-        data-cid={`${dataCid}-card-${item.id}`}
-        name={item.name}
-        image={item.image}
-        category={item.category}
-        location={item.location}
-        acquisitionDate={item.acquisitionDate}
+        data-cid={`${dataCid}-card-${item.lostItemId}`}
+        name={item.name || '이름 없음'}
+        image={item.imageUrl || ''}
+        category={item.category || '기타'}
+        location={item.location || '위치 정보 없음'}
+        acquisitionDate={item.date || ''}
         size="md"
         id={0}
       />

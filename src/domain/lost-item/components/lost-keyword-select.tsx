@@ -1,6 +1,5 @@
 import React from 'react';
 
-import type { KeywordType } from '@/domain/lost-item/mocks/data';
 import {
   Select,
   SelectContent,
@@ -10,17 +9,35 @@ import {
   SelectValue,
 } from '@/shared/ui/select';
 
+// 키워드 타입 정의
+type KeywordType = 'all' | string;
+
+interface KeywordItem {
+  id: string;
+  text: string;
+  category: string;
+  location: string;
+}
+
 interface KeywordSelectProps {
   keyword: KeywordType;
   onKeywordChange: (value: KeywordType) => void;
+  keywords?: KeywordItem[];
+  isLoading?: boolean;
 }
 
-export default function KeywordSelect({ keyword, onKeywordChange }: KeywordSelectProps) {
+export default function KeywordSelect({
+  keyword,
+  onKeywordChange,
+  keywords = [],
+  isLoading = false,
+}: KeywordSelectProps) {
   return (
     <Select
       data-cid="Select-IgJdMr"
       onValueChange={onKeywordChange}
       value={keyword}
+      disabled={isLoading}
     >
       <SelectTrigger
         data-cid="SelectTrigger-ALC1hC"
@@ -28,7 +45,7 @@ export default function KeywordSelect({ keyword, onKeywordChange }: KeywordSelec
       >
         <SelectValue
           data-cid="SelectValue-wByxLw"
-          placeholder="키워드를 선택하세요"
+          placeholder={isLoading ? '키워드를 불러오는 중...' : '키워드를 선택하세요'}
         />
       </SelectTrigger>
       <SelectContent data-cid="SelectContent-VRCjBf">
@@ -39,24 +56,15 @@ export default function KeywordSelect({ keyword, onKeywordChange }: KeywordSelec
           >
             전체
           </SelectItem>
-          <SelectItem
-            data-cid="SelectItem-UywRJ5"
-            value="airpods"
-          >
-            에어팟
-          </SelectItem>
-          <SelectItem
-            data-cid="SelectItem-H6nbI7"
-            value="freitag"
-          >
-            프라이탁 가방
-          </SelectItem>
-          <SelectItem
-            data-cid="SelectItem-TghTdz"
-            value="football"
-          >
-            축구공
-          </SelectItem>
+          {keywords.map((keywordItem) => (
+            <SelectItem
+              key={keywordItem.id}
+              data-cid={`SelectItem-${keywordItem.id}`}
+              value={keywordItem.text}
+            >
+              {keywordItem.text}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>
