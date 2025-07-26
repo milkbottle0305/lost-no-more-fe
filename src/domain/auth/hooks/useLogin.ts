@@ -12,9 +12,23 @@ export function useLogin(onLoginSuccess?: () => void, onClose?: () => void) {
     async (event: MessageEvent) => {
       if (event.data.type === 'OAUTH_CALLBACK' && event.data.code) {
         try {
-          await getToken({ code: event.data.code });
-          onLoginSuccess?.();
-          onClose?.();
+          await new Promise<void>((resolve, reject) => {
+            getToken(
+              { code: event.data.code },
+              {
+                onSuccess: () => {
+                  onLoginSuccess?.();
+                  setTimeout(() => {
+                    onClose?.();
+                    resolve();
+                  }, 1000);
+                },
+                onError: (error) => {
+                  reject(error);
+                },
+              }
+            );
+          });
         } catch (err) {
           console.error('토큰 획득 오류:', err);
           setError(err instanceof Error ? err.message : '로그인 처리 중 오류가 발생했습니다.');
