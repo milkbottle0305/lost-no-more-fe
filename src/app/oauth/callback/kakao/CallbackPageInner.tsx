@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+
 import { useSearchParams } from 'next/navigation';
 
 export default function CallbackPageInner() {
@@ -36,4 +37,4 @@ export default function CallbackPageInner() {
   }, [searchParams]);
 
   return <div data-cid="div-dW3PBD">로그인 처리중...</div>;
-} 
+}

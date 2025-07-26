@@ -1,7 +1,7 @@
 import { useAuth } from '@/domain/auth/hooks/useAuth';
 import type { SectionType } from '@/shared/types/section';
 import { Card, CardContent } from '@/shared/ui/card';
-import { Bell, ChevronRight, CircleHelp, LogOut, MapPin } from 'lucide-react';
+import { Bell, ChevronRight, CircleHelp, LogOut } from 'lucide-react';
 
 interface menuItems {
   id: SectionType;
@@ -26,16 +26,6 @@ const menuItems = [
     icon: (
       <Bell
         data-cid="Bell-X3GNYi"
-        className="h-4 w-4"
-      />
-    ),
-  },
-  {
-    id: 'locations',
-    label: '내 위치 설정',
-    icon: (
-      <MapPin
-        data-cid="MapPin-ECBgKn"
         className="h-4 w-4"
       />
     ),

@@ -2,12 +2,12 @@
 
 import { motion } from 'motion/react';
 
-import { useMapPanelContext } from '../contexts/map-panel-context';
+import { useMapPanelStore } from '../stores/map-panel-store';
 import MapDetailPanel from './map-detail-panel';
 import MapPanel from './map-panel';
 
 export default function MapPanelSwitch() {
-  const { isPanelOpen } = useMapPanelContext();
+  const isPanelOpen = useMapPanelStore((state) => state.isPanelOpen);
 
   return (
     <motion.div

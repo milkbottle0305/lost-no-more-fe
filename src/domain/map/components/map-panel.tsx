@@ -1,54 +1,20 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
-import type { LostCardProps } from '@/domain/lost-item/components/lost-card';
 import LostCard from '@/domain/lost-item/components/lost-card';
 import ListView from '@/shared/components/list-view';
 
-import { useMapPanelContext } from '../contexts/map-panel-context';
-
-const CHUNK_SIZE = 15;
-
-async function fetchLostItems(ids: number[]): Promise<LostCardProps[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(
-        ids.map((id) => ({
-          id,
-          name: `분실물 ${id}`,
-          image: 'https://sitem.ssgcdn.com/26/64/85/item/1000277856426_i1_750.jpg',
-          category: '카테고리',
-          location: '습득 장소',
-          acquisitionDate: '습득 일자',
-        }))
-      );
-    }, 500);
-  });
-}
+import useItemsSearchListByChunk from '../hooks/useItemsSearchListByChunk';
+import { useMapPanelStore } from '../stores/map-panel-store';
 
 export default function MapPanel() {
-  const { openPanel, lostItemIds, setCurrentItemId } = useMapPanelContext();
-  const [items, setItems] = useState<LostCardProps[]>([]);
-  const [cursor, setCursor] = useState(0);
-  const [isFetching, setIsFetching] = useState(false);
+  const openPanel = useMapPanelStore((state) => state.openPanel);
+  const lostItemIds = useMapPanelStore((state) => state.lostItemIds);
+  const setCurrentItemId = useMapPanelStore((state) => state.setCurrentItemId);
 
-  useEffect(() => {
-    setItems([]);
-    setCursor(0);
-  }, [lostItemIds]);
-
-  const loadMore = useCallback(async () => {
-    if (isFetching || cursor >= lostItemIds.length) return;
-    setIsFetching(true);
-
-    const nextIds = lostItemIds.slice(cursor, cursor + CHUNK_SIZE);
-    const newItems = await fetchLostItems(nextIds);
-
-    setItems((prev) => [...prev, ...newItems]);
-    setCursor((prev) => prev + CHUNK_SIZE);
-    setIsFetching(false);
-  }, [cursor, isFetching, lostItemIds]);
+  const { lostItems, isFethcingLostItems, loadMoreLostItems } =
+    useItemsSearchListByChunk(lostItemIds);
 
   const onClickLostCard = useCallback(
     (id: number) => {
@@ -72,14 +38,20 @@ export default function MapPanel() {
       <ListView
         data-cid="ListView-Me66Iy"
         className="w-[314px] py-3 pl-5 pr-3.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted [&::-webkit-scrollbar]:w-1.5"
-        items={items}
+        items={lostItems}
+        isInfinite
         itemHeight={291}
         renderItem={(item) => (
           <LostCard
+            id={item.lostItemId}
+            image={item.imageUrl}
+            acquisitionDate={item.date}
             data-cid="LostCard-4Ro1Tz"
-            {...item}
-            onClick={() => onClickLostCard(item.id)}
-            key={item.id}
+            onClick={() => onClickLostCard(item.lostItemId)}
+            key={item.lostItemId}
+            name={item.name}
+            category={item.category}
+            location={item.location}
           />
         )}
         renderEmpty={() => (
@@ -91,9 +63,8 @@ export default function MapPanel() {
           </p>
         )}
         gap={16}
-        loadMore={loadMore}
-        isFetching={isFetching}
-        isInfinite={true}
+        loadMore={loadMoreLostItems}
+        isFetching={isFethcingLostItems}
       />
     </div>
   );

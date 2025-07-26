@@ -1,66 +1,32 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Image from 'next/image';
 
+import { useItemsSearchDetailQuery } from '@/domain/search/queries/useItemsSearchDetailQuery';
 import SkeletonView from '@/shared/components/skeleton-view';
 import useBoolean from '@/shared/hooks/useBoolean';
-import type { LostLocation } from '@/shared/types/lost-property';
-import { Building2Icon, CalendarIcon, ChevronLeftIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
+import { CalendarIcon, ChevronLeftIcon, MapPinIcon } from 'lucide-react';
 
-import { useMapPanelContext } from '../contexts/map-panel-context';
-
-interface MapDetailPanelProps {
-  name: string;
-  image: string;
-  acquisitionLocation: LostLocation;
-  acquisitionDate: string;
-  storageLocation: string;
-  contact: string;
-  description: string;
-}
+import { useMapPanelStore } from '../stores/map-panel-store';
 
 export default function MapDetailPanel() {
   const { value: isLoading, setFalse: completeLoad } = useBoolean(true);
-  const { currentItemId, closePanel } = useMapPanelContext();
-  const [name, setName] = useState('');
-  const [image, setImage] = useState('');
-  const [acquisitionLocation, setAcquisitionLocation] = useState<LostLocation | null>(null);
-  const [acquisitionDate, setAcquisitionDate] = useState('');
-  const [storageLocation, setStorageLocation] = useState('');
-  const [contact, setContact] = useState('');
-  const [description, setDescription] = useState('');
+  const currentItemId = useMapPanelStore((state) => state.currentItemId);
+  const closePanel = useMapPanelStore((state) => state.closePanel);
 
-  const fetchLostItem = useCallback(async (id: number) => {
-    return new Promise<MapDetailPanelProps>((resolve) => {
-      setTimeout(() => {
-        resolve({
-          name: `분실물 ${id}`,
-          image: 'https://sitem.ssgcdn.com/26/64/85/item/1000277856426_i1_750.jpg',
-          acquisitionLocation: '경기도',
-          acquisitionDate: '2020-01-01',
-          storageLocation: '경기도청',
-          contact: '02-1234-1234',
-          description:
-            '경기도청 2층 민원실에서 보관중입니다. 평일 9시부터 6시까지 방문 가능합니다. 본인임을 확인할 수 있는 서류를 지참해주세요.',
-        });
-      }, 500);
-    });
-  }, []);
+  // API 연동: useItemsSearchDetailQuery 사용
+  const { data, isLoading: queryLoading } = useItemsSearchDetailQuery({
+    lostItemId: currentItemId,
+  });
+  const detail = data?.data;
 
   useEffect(() => {
-    fetchLostItem(currentItemId).then((lostItem) => {
-      setName(lostItem.name);
-      setImage(lostItem.image);
-      setAcquisitionLocation(lostItem.acquisitionLocation);
-      setAcquisitionDate(lostItem.acquisitionDate);
-      setStorageLocation(lostItem.storageLocation);
-      setContact(lostItem.contact);
-      setDescription(lostItem.description);
+    if (!queryLoading) {
       completeLoad();
-    });
-  }, [completeLoad, currentItemId, fetchLostItem]);
+    }
+  }, [queryLoading, completeLoad]);
 
   return (
     <div
@@ -69,19 +35,17 @@ export default function MapDetailPanel() {
     >
       <Header
         data-cid="Header-mGcSaV"
-        name={name}
+        name={detail?.name ?? ''}
         closePanel={closePanel}
         isLoading={isLoading}
       />
       <Content
         data-cid="Content-1yIcSV"
-        name={name}
-        image={image}
-        acquisitionDate={acquisitionDate}
-        acquisitionLocation={acquisitionLocation!}
-        storageLocation={storageLocation}
-        contact={contact}
-        description={description}
+        name={detail?.name ?? ''}
+        image={detail?.imageUrl ?? ''}
+        acquisitionDate={detail?.date ?? ''}
+        acquisitionLocation={detail?.location ?? ''}
+        description={''}
         isLoading={isLoading}
       />
     </div>
@@ -185,8 +149,6 @@ function Content({
   image,
   acquisitionDate,
   acquisitionLocation,
-  storageLocation,
-  contact,
   description,
   isLoading,
 }: {
@@ -194,8 +156,6 @@ function Content({
   image: string;
   acquisitionDate: string;
   acquisitionLocation: string;
-  storageLocation: string;
-  contact: string;
   description: string;
   isLoading: boolean;
 }) {
@@ -251,20 +211,6 @@ function Content({
             icon={CalendarIcon}
             label="습득 일자"
             content={acquisitionDate}
-            isLoading={isLoading}
-          />
-          <InfoItem
-            data-cid="InfoItem-my57H7"
-            icon={Building2Icon}
-            label="보관 장소"
-            content={storageLocation}
-            isLoading={isLoading}
-          />
-          <InfoItem
-            data-cid="InfoItem-OSQBvR"
-            icon={PhoneIcon}
-            label="연락처"
-            content={contact}
             isLoading={isLoading}
           />
         </div>

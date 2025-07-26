@@ -1,9 +1,9 @@
 import { ZoomInIcon, ZoomOutIcon } from 'lucide-react';
 
-import { useLostNoMoreMapContext } from '../contexts/lost-no-more-map-context';
+import { useLostNoMoreMapStore } from '../stores/lost-no-more-map-store';
 
 export default function ZoomController() {
-  const { setLevel } = useLostNoMoreMapContext();
+  const setLevel = useLostNoMoreMapStore((state) => state.setLevel);
   const zoomIn = () => {
     setLevel((prev) => prev - 1);
   };

@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'sitem.ssgcdn.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.lost112.go.kr',
+      },
     ],
   },
   compiler: isProduction ? { reactRemoveProperties: { properties: ['^data-cid$'] } } : {},

@@ -19,11 +19,15 @@ export const ApiEndpoint = {
     SUBSCRIBE_DETAIL: (id: string) => `subscribe/${id}`,
   },
 
+  SUBSCRIBE_LIST: 'subscribe/list',
+
   NOTIFICATIONS: 'alarm',
 
   ITEMS_COUNT: 'items/count',
   ITEMS_RECENT: 'items/recent',
   ITEMS_SEARCH_MAP: 'items/search/map',
+  ITEMS_SEARCH_LIST: 'items/search/list',
+  ITEMS_SEARCH_DETAIL: 'items/search',
 } as const;
 
 export const getAuthHeaders = (token?: string | null): Record<string, string> => {

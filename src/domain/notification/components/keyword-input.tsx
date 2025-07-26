@@ -20,7 +20,7 @@ export default function KeywordInput({ addKeyword }: KeywordInputProps) {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       handleAdd();
     }
   };
