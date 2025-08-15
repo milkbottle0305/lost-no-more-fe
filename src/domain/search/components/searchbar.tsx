@@ -28,7 +28,7 @@ export default function Searchbar() {
   return (
     <div
       data-cid="div-CKhgXS"
-      className="flex w-96 items-center gap-2 rounded-lg bg-background px-3 py-2.5"
+      className="flex w-full max-w-sm md:w-80 lg:w-96 items-center gap-2 rounded-lg bg-background px-3 py-2.5"
     >
       <Button
         data-cid="button-AoeBMA"

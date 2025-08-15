@@ -42,7 +42,7 @@ function LocationPicker() {
       >
         <div
           data-cid="div-0Di81I"
-          className="flex h-[32px] w-[196px] items-center justify-between rounded-lg border-2 border-solid border-border bg-background p-2"
+          className="flex h-[32px] w-full sm:w-[140px] md:w-[160px] lg:w-[196px] items-center justify-between rounded-lg border-2 border-solid border-border bg-background p-2"
         >
           <div
             data-cid="div-yhnWMZ"
@@ -99,7 +99,7 @@ function CategoryPicker() {
       >
         <div
           data-cid="div-HjvR8O"
-          className="flex h-[32px] w-[196px] items-center justify-between rounded-lg border-2 border-solid border-border bg-background p-2"
+          className="flex h-[32px] w-full sm:w-[140px] md:w-[160px] lg:w-[196px] items-center justify-between rounded-lg border-2 border-solid border-border bg-background p-2"
         >
           <div
             data-cid="div-gVDBb1"
@@ -148,14 +148,29 @@ export default function SearchFilter() {
   return (
     <div
       data-cid="div-ckVaYe"
-      className="absolute right-10 top-24 z-10 flex items-center gap-6"
+      className="absolute right-2 top-16 sm:right-4 sm:top-20 lg:right-10 lg:top-24 z-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 lg:gap-6 w-auto"
     >
       {/* 날짜 선택 캘린더 */}
-      <DateRangePicker data-cid="DateRangePicker-6FkJ4f" />
+      <div
+        data-cid="div-date-wrapper"
+        className="order-1"
+      >
+        <DateRangePicker data-cid="DateRangePicker-6FkJ4f" />
+      </div>
       {/* 지역 선택 드롭다운 */}
-      <LocationPicker data-cid="LocationPicker-YUsS7W" />
+      <div
+        data-cid="div-location-wrapper"
+        className="order-2"
+      >
+        <LocationPicker data-cid="LocationPicker-YUsS7W" />
+      </div>
       {/* 카테고리 선택 드롭다운 */}
-      <CategoryPicker data-cid="CategoryPicker-6FkJ4f" />
+      <div
+        data-cid="div-category-wrapper"
+        className="order-3"
+      >
+        <CategoryPicker data-cid="CategoryPicker-6FkJ4f" />
+      </div>
     </div>
   );
 }

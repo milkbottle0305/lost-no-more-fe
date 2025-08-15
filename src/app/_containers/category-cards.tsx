@@ -20,7 +20,8 @@ export default function CategoryCards() {
       icon: () => (
         <PackageIcon
           data-cid="PackageIcon-AV6Xx7"
-          size={32}
+          size={24}
+          className="sm:w-7 sm:h-7 lg:w-8 lg:h-8"
           color="hsl(var(--primary))"
         />
       ),
@@ -34,7 +35,7 @@ export default function CategoryCards() {
   return (
     <div
       data-cid="div-aymX7X"
-      className="grid grid-cols-3 gap-x-10 gap-y-2.5"
+      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-4 sm:gap-x-6 lg:gap-x-10 gap-y-2.5"
     >
       {categries.map((category) => (
         <CategoryCard

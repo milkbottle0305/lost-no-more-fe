@@ -32,7 +32,7 @@ function LoginRecentCards() {
               <CarouselItem
                 data-cid="CarouselItem-sbMufa"
                 key={item.lostItemId}
-                className="basis-1/3"
+                className="basis-full sm:basis-1/2 lg:basis-1/3"
               >
                 <LostCard
                   data-cid="LostCard-glOAzq"
@@ -108,13 +108,13 @@ function BlurredCarousel({
       <img
         data-cid="img-zQLdT4"
         src="/images/blurred-carousel.png"
-        className="w-full h-[275.63px] rounded-xl filter blur-sm"
+        className="w-full h-[200px] sm:h-[240px] lg:h-[275.63px] rounded-xl filter blur-sm"
       />
       {isDescriptionInvisible ? null : (
         <Button
           data-cid="p-ut3jtu"
           onClick={onClick}
-          className="bg-foreground rounded-md py-1 px-2 text-lg text-background font-extrabold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="bg-foreground rounded-md py-1 px-2 text-sm sm:text-base lg:text-lg text-background font-extrabold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           {description}
         </Button>
@@ -131,7 +131,7 @@ export default function RecentCards() {
   return (
     <div
       data-cid="div-gfl5wS"
-      className="flex flex-col gap-6"
+      className="flex flex-col gap-4 sm:gap-5 lg:gap-6"
     >
       <div
         data-cid="div-aZhqrg"
@@ -139,7 +139,7 @@ export default function RecentCards() {
       >
         <p
           data-cid="p-1P8CbO"
-          className="text-xl font-extrabold text-foreground"
+          className="text-lg sm:text-xl font-extrabold text-foreground"
         >
           새로 등록된 관심 분실물
         </p>

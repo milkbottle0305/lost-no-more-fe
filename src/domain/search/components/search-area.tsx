@@ -174,7 +174,7 @@ function SearchButton() {
       data-cid="button-mlleZa"
       disabled={!isEnabled}
       onClick={() => router.push('/search')}
-      className="whitespace-nowrap rounded-xl bg-secondary-foreground px-8 h-14 text-center text-2xl font-bold text-secondary"
+      className="whitespace-nowrap rounded-xl bg-secondary-foreground px-4 sm:px-6 lg:px-8 h-12 sm:h-13 lg:h-14 text-center text-lg sm:text-xl lg:text-2xl font-bold text-secondary w-full sm:w-auto"
     >
       검색
     </Button>
@@ -187,11 +187,31 @@ export default function SearchArea() {
       <Searchbar data-cid="Searchbar-6qPgfD" />
       <div
         data-cid="div-FyG2z0"
-        className="flex items-center gap-6"
+        className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 lg:gap-6"
       >
-        <LocationPicker data-cid="LocationPicker-1rZw5k" />
-        <CategoryPicker data-cid="CategoryPicker-575k2U" />
-        <SearchButton data-cid="SearchButton-1xrH5c" />
+        <div
+          data-cid="div-pickers"
+          className="flex flex-1 gap-3 sm:gap-4 lg:gap-6"
+        >
+          <div
+            data-cid="div-location"
+            className="flex-1"
+          >
+            <LocationPicker data-cid="LocationPicker-1rZw5k" />
+          </div>
+          <div
+            data-cid="div-category"
+            className="flex-1"
+          >
+            <CategoryPicker data-cid="CategoryPicker-575k2U" />
+          </div>
+        </div>
+        <div
+          data-cid="div-search-button"
+          className="sm:flex-shrink-0"
+        >
+          <SearchButton data-cid="SearchButton-1xrH5c" />
+        </div>
       </div>
     </>
   );

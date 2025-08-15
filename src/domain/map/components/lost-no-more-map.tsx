@@ -109,6 +109,13 @@ export default function LostNoMoreMap() {
   // 단일 마커 클릭 핸들러
   const handleMarkerClick = (item: { lostItemId: number; latitude: number; longitude: number }) => {
     setLostItemIds([item.lostItemId]);
+    // 모바일에서는 바텀시트 열기
+    if (window.innerWidth <= 768) {
+      const bottomSheetEvent = new CustomEvent('openBottomSheet', {
+        detail: { itemIds: [item.lostItemId] },
+      });
+      window.dispatchEvent(bottomSheetEvent);
+    }
   };
 
   // 클러스터 클릭 핸들러
@@ -141,6 +148,14 @@ export default function LostNoMoreMap() {
         .flat()
         .filter((id, idx, arr) => arr.indexOf(id) === idx); // 중복 제거
       setLostItemIds(lostItemIDs);
+
+      // 모바일에서는 바텀시트 열기
+      if (window.innerWidth <= 768) {
+        const bottomSheetEvent = new CustomEvent('openBottomSheet', {
+          detail: { itemIds: lostItemIDs },
+        });
+        window.dispatchEvent(bottomSheetEvent);
+      }
     },
     [mapMarkers, setLostItemIds]
   );
