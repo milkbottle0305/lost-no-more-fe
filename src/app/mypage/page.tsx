@@ -9,7 +9,8 @@ import { SwitchCase } from '@/shared/components/switch-case';
 import type { SectionType } from '@/shared/types/section';
 
 import { LocationsSection } from './_containers/location-section';
-import { LostItemsSection } from './_containers/lost-items-section';
+import { LostItemsSection } from './_containers/lost-items-section-new';
+import { MobileMyPageTabs } from './_containers/mobile-mypage-tabs';
 import { NotificationsSection } from './_containers/notifications-section';
 import { SideNavigation } from './_containers/side-navigation';
 
@@ -30,18 +31,38 @@ export default function MyPage() {
       <Headerbar data-cid="Headerbar-WDxQ34" />
       <div
         data-cid="div-4VgePc"
-        className="container mx-auto py-8"
+        className="container mx-auto py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8"
       >
         <h1
           data-cid="h1-S1iqHU"
-          className="text-2xl font-bold"
+          className="text-xl sm:text-2xl font-bold"
         >
           마이페이지
         </h1>
       </div>
+
+      {/* 모바일 레이아웃 */}
       <div
-        data-cid="div-SzyRji"
-        className="container mx-auto flex gap-6"
+        data-cid="div-mobile-layout"
+        className="lg:hidden container mx-auto px-4 sm:px-6"
+      >
+        <MobileMyPageTabs
+          data-cid="MobileMyPageTabs-main"
+          activeSection={activeSection}
+          onSectionChange={(section: SectionType) => setActiveSection(section)}
+        />
+        <div
+          data-cid="div-mobile-withdraw"
+          className="mt-6 flex justify-center"
+        >
+          <WithdrawButton data-cid="WithdrawButton-mobile" />
+        </div>
+      </div>
+
+      {/* 데스크톱 레이아웃 */}
+      <div
+        data-cid="div-desktop-layout"
+        className="hidden lg:flex container mx-auto gap-6 px-4 sm:px-6 lg:px-8"
       >
         <div
           data-cid="div-CuMShQ"
@@ -54,14 +75,14 @@ export default function MyPage() {
           />
           <div
             data-cid="div-j7PhSo"
-            className="mt-4 w-full justify-center flex"
+            className="mt-4 w-full justify-start flex"
           >
             <WithdrawButton data-cid="WithdrawButton-1wL7jw" />
           </div>
         </div>
         <div
           data-cid="div-epqpvX"
-          className="flex-1"
+          className="flex-1 min-w-0"
         >
           <SwitchCase
             data-cid="SwitchCase-ePIaQv"

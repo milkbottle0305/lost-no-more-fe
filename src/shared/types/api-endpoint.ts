@@ -25,6 +25,7 @@ export const ApiEndpoint = {
 
   ITEMS_COUNT: 'items/count',
   ITEMS_RECENT: 'items/recent',
+  ITEMS_BY_IDS: 'items/by-ids',
   ITEMS_SEARCH_MAP: 'items/search/map',
   ITEMS_SEARCH_LIST: 'items/search/list',
   ITEMS_SEARCH_DETAIL: 'items/search',
